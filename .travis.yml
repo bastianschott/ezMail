@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "node"
+  - 'node'
 dist: trusty
 sudo: required
 
@@ -11,6 +11,10 @@ addons:
     packages:
       - google-chrome-stable
 
+cache:
+  directories:
+    - ./node_modules
+
 branches:
   only:
     - master
@@ -20,7 +24,7 @@ before_script:
 
 script:
   - ng lint
-  - npm run test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  #- npm run test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
   - ng build --prod
 
 deploy:
