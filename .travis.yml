@@ -14,7 +14,7 @@ before_script:
 script:
   - ng lint
   - npm run test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-  - ng build --prod --base-href https://bastianschott.github.io/ezMail/
+  #- ng build --prod --base-href https://bastianschott.github.io/ezMail/
 	
 deploy:
   provider: pages
