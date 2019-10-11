@@ -1,0 +1,2 @@
+# ezMail
+Administrate mailinglists easily
