@@ -1,18 +1,34 @@
 language: node_js
 node_js:
   - "node"
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
 branches:
   only:
     - master
-before_script:
-  - npm install -g @angular/cli
-script:
+
+cache:
+  directories:
+    - ./node_modules
+
+install:
   - npm install
-  - npm run build
+
+script:
+  - ng lint
+  - npm run test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  - ng build --prod --base-href https://bastianschott.github.io/ezMail/
+	
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $pages
-  keep_history: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/ezMail
   on:
-    branch: gh-pages
+    branch: master
