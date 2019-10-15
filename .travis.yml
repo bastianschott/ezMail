@@ -25,7 +25,7 @@ before_script:
 script:
   - ng lint
   #- npm run test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-  - ng build --prod
+  - ng build --prod --base-href './'
 
 deploy:
   provider: pages
