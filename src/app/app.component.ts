@@ -1,9 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  OnDestroy,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
@@ -11,7 +6,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent {
   title = 'ezMail';
 
   @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;

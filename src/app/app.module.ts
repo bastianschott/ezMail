@@ -20,9 +20,10 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import { NewSidenavComponent } from './menu/new-sidenav/new-sidenav.component';
+import { Sidenav2Component } from './sidenav2/sidenav2.component';
 
 @NgModule({
-  declarations: [AppComponent, SidenavComponent, NewSidenavComponent],
+  declarations: [AppComponent, SidenavComponent, NewSidenavComponent, Sidenav2Component],
   imports: [
     BrowserModule,
     AppRoutingModule,
