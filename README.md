@@ -1,5 +1,6 @@
 # ezMail
-[![Build Status](https://travis-ci.org/bastianschott/ezMail.svg?branch=master)](https://travis-ci.org/bastianschott/ezMail)
+[![Build Status](https://travis-ci.org/bastianschott/ezMail.svg?branch=master)](https://travis-ci.org/bastianschott/ezMail) 
+[![Coverage Status](https://coveralls.io/repos/github/bastianschott/ezMail/badge.svg?branch=master)](https://coveralls.io/github/bastianschott/ezMail?branch=master)
 
 _Administrate mailinglists easily_
 
