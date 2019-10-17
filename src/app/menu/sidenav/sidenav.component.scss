@@ -19,3 +19,10 @@
 a mat-icon {
   margin-right: 0.5em;
 }
+
+// https://stackoverflow.com/a/42981450/11061015
+.fill-space {
+  // This fills the remaining space, by using flexbox.
+  // Every toolbar row uses a flexbox row layout.
+  flex: 1 1 auto;
+}

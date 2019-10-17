@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +11,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { AuthenticationService } from './shared/authentication.service'; // Auth service
 
 // Material components
 import { MaterialModule } from './material/material.module';
@@ -22,11 +21,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Components
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidenavComponent } from './menu/sidenav/sidenav.component';
-import { ToolbarComponent } from './menu/toolbar/toolbar.component';
+import {
+  ToolbarComponent,
+  LoginDialogComponent,
+  RegisterDialogComponent,
+} from './menu/toolbar/toolbar.component';
 import { DashboardToolbarComponent } from './dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { UserComponent } from './user/user.component';
 import { UserToolbarComponent } from './user/user-toolbar/user-toolbar.component';
-import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { AuthComponent } from './auth/auth.component';
     DashboardToolbarComponent,
     UserComponent,
     UserToolbarComponent,
-    AuthComponent,
+    LoginDialogComponent,
+    RegisterDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,12 +48,14 @@ import { AuthComponent } from './auth/auth.component';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     LayoutModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     FontAwesomeModule,
   ],
-  providers: [AuthenticationService],
+  providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [LoginDialogComponent, RegisterDialogComponent],
 })
 export class AppModule {}
