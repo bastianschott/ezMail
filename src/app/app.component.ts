@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component } from '@angular/core';
+import { AuthenticationService } from './shared/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,23 @@ import { MatSidenav } from '@angular/material/sidenav';
 export class AppComponent {
   title = 'ezMail';
 
-  @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
+  email: string;
+  password: string;
 
-  close() {
-    this.sidenav.close();
+  constructor(public authenticationService: AuthenticationService) {}
+
+  signUp() {
+    this.authenticationService.SignUp(this.email, this.password);
+    this.email = '';
+    this.password = '';
+  }
+
+  signIn() {
+    this.email = '';
+    this.password = '';
+  }
+
+  signOut() {
+    this.authenticationService.SignOut();
   }
 }
