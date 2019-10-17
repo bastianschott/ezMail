@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
 
 // Material components
-
 import { MatSliderModule } from '@angular/material/slider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,14 +16,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MaterialModule } from 'src/material-module';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
-import { NewSidenavComponent } from './menu/new-sidenav/new-sidenav.component';
-import { Sidenav2Component } from './sidenav2/sidenav2.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+
+// Components
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SidenavComponent } from './menu/sidenav/sidenav.component';
 
 @NgModule({
-  declarations: [AppComponent, SidenavComponent, NewSidenavComponent, Sidenav2Component],
+  declarations: [AppComponent, SidenavComponent, DashboardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,6 +41,8 @@ import { Sidenav2Component } from './sidenav2/sidenav2.component';
     MatListModule,
     LayoutModule,
     MatButtonModule,
+    MatGridListModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
