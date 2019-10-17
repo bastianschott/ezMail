@@ -23,9 +23,10 @@ import { MatCardModule } from '@angular/material/card';
 // Components
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SidenavComponent } from './menu/sidenav/sidenav.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
-  declarations: [AppComponent, SidenavComponent, DashboardComponent],
+  declarations: [AppComponent, SidenavComponent, DashboardComponent, TestComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
