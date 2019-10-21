@@ -29,6 +29,8 @@ import {
 import { DashboardToolbarComponent } from './dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { UserComponent } from './user/user.component';
 import { UserToolbarComponent } from './user/user-toolbar/user-toolbar.component';
+import { MailSettingsComponent } from './core/mail-settings/mail-settings.component';
+import { MailSettingsToolbarComponent } from './core/mailSettings/mail-settings-toolbar/mail-settings-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { UserToolbarComponent } from './user/user-toolbar/user-toolbar.component
     UserToolbarComponent,
     LoginDialogComponent,
     RegisterDialogComponent,
+    MailSettingsComponent,
+    MailSettingsToolbarComponent,
   ],
   imports: [
     BrowserModule,
