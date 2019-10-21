@@ -19,18 +19,13 @@ import { MaterialModule } from './material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Components
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { SidenavComponent } from './menu/sidenav/sidenav.component';
-import {
-  ToolbarComponent,
-  LoginDialogComponent,
-  RegisterDialogComponent,
-} from './menu/toolbar/toolbar.component';
-import { DashboardToolbarComponent } from './dashboard/dashboard-toolbar/dashboard-toolbar.component';
-import { UserComponent } from './user/user.component';
-import { UserToolbarComponent } from './user/user-toolbar/user-toolbar.component';
+import { ToolbarComponent, LoginDialogComponent, RegisterDialogComponent } from './menu/toolbar/toolbar.component';
 import { MailSettingsComponent } from './core/mail-settings/mail-settings.component';
-import { MailSettingsToolbarComponent } from './core/mailSettings/mail-settings-toolbar/mail-settings-toolbar.component';
+import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/dashboard-toolbar.component';
+import { UserComponent } from './core/user/user.component';
+import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +39,6 @@ import { MailSettingsToolbarComponent } from './core/mailSettings/mail-settings-
     LoginDialogComponent,
     RegisterDialogComponent,
     MailSettingsComponent,
-    MailSettingsToolbarComponent,
   ],
   imports: [
     BrowserModule,

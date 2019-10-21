@@ -1,10 +1,10 @@
-import { UserToolbarComponent } from './user/user-toolbar/user-toolbar.component';
-import { UserComponent } from './user/user.component';
-import { DashboardToolbarComponent } from './dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { ToolbarComponent } from './menu/toolbar/toolbar.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DashboardComponent } from './core/dashboard/dashboard.component';
+import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/dashboard-toolbar.component';
+import { UserComponent } from './core/user/user.component';
+import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.component';
 
 const routes: Routes = [
   // initiale Routen
