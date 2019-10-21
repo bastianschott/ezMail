@@ -17,18 +17,46 @@
     </mat-toolbar>
     <mat-nav-list>
       <!-- TODO: responsive: menü schließt sich nicht, wenn ein router-link angeklickt wird!-->
-      <a mat-list-item [routerLink]="[{ outlets: { primary: ['login'], toolbar: ['login'] } }]" routerLinkActive="active"> <mat-icon></mat-icon>Login </a>
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['login'], toolbar: ['login'] } }]"
+        routerLinkActive="active"
+        *ngIf="(userIsLoggedIn$ | async) === false"
+        ><fa-icon [icon]="faSignInAlt" class="fa-menu"></fa-icon>Login
+      </a>
       <a mat-list-item [routerLink]="[{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]" routerLinkActive="active">
         <mat-icon>dashboard</mat-icon>Dashboard
       </a>
       <a mat-list-item [routerLink]="[{ outlets: { primary: ['user'], toolbar: ['user'] } }]" routerLinkActive="active">
         <mat-icon>person</mat-icon>Benutzer
       </a>
-      <a mat-list-item [routerLink]="[{ outlets: { primary: ['settings'], toolbar: ['settings'] } }]" routerLinkActive="active">
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['settings'], toolbar: ['settings'] } }]"
+        routerLinkActive="active"
+        *ngIf="isHandset$ | async"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>settings</mat-icon>Einstellungen
+      </a>
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['settings'], toolbar: ['settings'] } }]"
+        routerLinkActive="active"
+        *ngIf="(isHandset$ | async) === false"
+      >
         <mat-icon>settings</mat-icon>Einstellungen
       </a>
       <a mat-list-item [routerLink]="[{ outlets: { primary: ['mail-settings'], toolbar: ['mail-settings'] } }]" routerLinkActive="active">
         <mat-icon>email</mat-icon>Mail-Einstellungen
+      </a>
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['login'], toolbar: ['login'] } }]"
+        routerLinkActive="active"
+        *ngIf="userIsLoggedIn$ | async"
+        (click)="logout()"
+        ><fa-icon [icon]="faSignOutAlt" class="fa-menu"></fa-icon> Logout
       </a>
     </mat-nav-list>
   </mat-sidenav>
