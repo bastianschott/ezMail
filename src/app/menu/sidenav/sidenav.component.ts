@@ -1,6 +1,6 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from './../../shared/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { faBeer, faSignOutAlt, faSignInAlt } from '@fortawesome/free-solid-svg-i
   styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit {
+  @ViewChild('drawer', { static: false }) drawer: any;
   faBeer = faBeer;
   faSignOutAlt = faSignOutAlt;
   faSignInAlt = faSignInAlt;
@@ -32,6 +33,14 @@ export class SidenavComponent implements OnInit {
   isLoggedIn(): Observable<boolean> {
     return this.authenticationService.isLoggedIn();
   }
+
+  closeSideNav() {
+    console.log('Drawer mode: ' + this.drawer._mode);
+    if (this.drawer._mode === 'over') {
+      this.drawer.close();
+    }
+  }
+
   ngOnInit(): void {
     this.userIsLoggedIn$ = this.authenticationService.getUserIsLoggedIn$();
   }
