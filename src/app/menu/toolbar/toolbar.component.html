@@ -1,10 +1,2 @@
 <button mat-raised-button (click)="openLogin()">Login</button>
 <button mat-raised-button (click)="openRegister()">Register</button>
-
-<mat-menu #appMenu="matMenu">
-  <firebase-ui (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"></firebase-ui>
-</mat-menu>
-
-<button mat-icon-button [matMenuTriggerFor]="appMenu">
-  <mat-icon>more_vert</mat-icon>
-</button>
