@@ -30,6 +30,8 @@ import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/da
 import { UserComponent } from './core/user/user.component';
 import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.component';
 import { MailSettingsToolbarComponent } from './core/mail-settings/mail-settings-toolbar/mail-settings-toolbar.component';
+import { SettingsComponent } from './core/settings/settings.component';
+import { SettingsToolbarComponent } from './core/settings/settings-toolbar/settings-toolbar.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -69,6 +71,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     RegisterDialogComponent,
     MailSettingsComponent,
     MailSettingsToolbarComponent,
+    SettingsComponent,
+    SettingsToolbarComponent,
   ],
   imports: [
     BrowserModule,

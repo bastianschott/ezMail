@@ -7,6 +7,8 @@ import { UserComponent } from './core/user/user.component';
 import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.component';
 import { MailSettingsComponent } from './core/mail-settings/mail-settings.component';
 import { MailSettingsToolbarComponent } from './core/mail-settings/mail-settings-toolbar/mail-settings-toolbar.component';
+import { SettingsComponent } from './core/settings/settings.component';
+import { SettingsToolbarComponent } from './core/settings/settings-toolbar/settings-toolbar.component';
 
 const routes: Routes = [
   // initiale Routen
@@ -38,6 +40,15 @@ const routes: Routes = [
   {
     path: 'mail-settings',
     component: MailSettingsToolbarComponent,
+    outlet: 'toolbar',
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+  },
+  {
+    path: 'settings',
+    component: SettingsToolbarComponent,
     outlet: 'toolbar',
   },
 ];
