@@ -13,8 +13,5 @@ export class AppComponent {
   email: string;
   password: string;
 
-  items: Observable<any[]>;
-  constructor(db: AngularFirestore) {
-    this.items = db.collection('items').valueChanges();
-  }
+  constructor() {}
 }
