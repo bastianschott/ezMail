@@ -1,3 +1,4 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,12 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 
 // Firebase
+import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { environment } from '../environments/environment';
-import { AngularFirestore } from '@angular/fire/firestore';
-
-import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
 
 // Material components
 import { MaterialModule } from './material/material.module';
@@ -32,29 +30,22 @@ import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.comp
 import { MailSettingsToolbarComponent } from './core/mail-settings/mail-settings-toolbar/mail-settings-toolbar.component';
 import { SettingsComponent } from './core/settings/settings.component';
 import { SettingsToolbarComponent } from './core/settings/settings-toolbar/settings-toolbar.component';
+import { environment } from 'src/environments/environment';
+import { LoginComponent } from './core/login/login.component';
+import { LoginToolbarComponent } from './core/login/login-toolbar/login-toolbar.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'popup',
+  signInFlow: 'redirect',
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    {
-      scopes: ['public_profile', 'email', 'user_likes', 'user_friends'],
-      customParameters: {
-        auth_type: 'reauthenticate',
-      },
-      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    },
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
     {
       requireDisplayName: false,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
     },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
-  tosUrl: '<your-tos-link>',
-  privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
+  // tosUrl: '<your-tos-link>',
+  // privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
   credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
 };
 
@@ -73,6 +64,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     MailSettingsToolbarComponent,
     SettingsComponent,
     SettingsToolbarComponent,
+    LoginComponent,
+    LoginToolbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,10 +75,10 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
+    FontAwesomeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    FontAwesomeModule,
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

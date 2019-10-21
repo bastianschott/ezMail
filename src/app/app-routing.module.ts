@@ -1,3 +1,5 @@
+import { LoginComponent } from './core/login/login.component';
+import { LoginToolbarComponent } from './core/login/login-toolbar/login-toolbar.component';
 import { ToolbarComponent } from './menu/toolbar/toolbar.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -49,6 +51,15 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsToolbarComponent,
+    outlet: 'toolbar',
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'login',
+    component: LoginToolbarComponent,
     outlet: 'toolbar',
   },
 ];

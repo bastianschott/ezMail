@@ -17,6 +17,7 @@
     </mat-toolbar>
     <mat-nav-list>
       <!-- TODO: responsive: menü schließt sich nicht, wenn ein router-link angeklickt wird!-->
+      <a mat-list-item [routerLink]="[{ outlets: { primary: ['login'], toolbar: ['login'] } }]" routerLinkActive="active"> <mat-icon></mat-icon>Login </a>
       <a mat-list-item [routerLink]="[{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]" routerLinkActive="active">
         <mat-icon>dashboard</mat-icon>Dashboard
       </a>
