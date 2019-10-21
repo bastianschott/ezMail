@@ -23,8 +23,10 @@
       <a mat-list-item [routerLink]="[{ outlets: { primary: ['user'], toolbar: ['user'] } }]" routerLinkActive="active">
         <mat-icon>person</mat-icon>Benutzer
       </a>
-      <a mat-list-item routerLink="/user" routerLinkActive="active"> <mat-icon>settings</mat-icon>Einstellungen </a>
-      <a mat-list-item routerLink="/user" routerLinkActive="active"> <mat-icon>email</mat-icon>Mail-Einstellungen </a>
+      <a mat-list-item routerLink="user" routerLinkActive="active"> <mat-icon>settings</mat-icon>Einstellungen </a>
+      <a mat-list-item [routerLink]="[{ outlets: { primary: ['mail-settings'], toolbar: ['mail-settings'] } }]" routerLinkActive="active">
+        <mat-icon>email</mat-icon>Mail-Einstellungen
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

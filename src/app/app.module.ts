@@ -26,6 +26,7 @@ import { MailSettingsComponent } from './core/mail-settings/mail-settings.compon
 import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { UserComponent } from './core/user/user.component';
 import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.component';
+import { MailSettingsToolbarComponent } from './core/mail-settings/mail-settings-toolbar/mail-settings-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.comp
     LoginDialogComponent,
     RegisterDialogComponent,
     MailSettingsComponent,
+    MailSettingsToolbarComponent,
   ],
   imports: [
     BrowserModule,

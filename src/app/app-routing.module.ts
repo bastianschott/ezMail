@@ -5,6 +5,8 @@ import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { UserComponent } from './core/user/user.component';
 import { UserToolbarComponent } from './core/user/user-toolbar/user-toolbar.component';
+import { MailSettingsComponent } from './core/mail-settings/mail-settings.component';
+import { MailSettingsToolbarComponent } from './core/mail-settings/mail-settings-toolbar/mail-settings-toolbar.component';
 
 const routes: Routes = [
   // initiale Routen
@@ -27,6 +29,15 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserToolbarComponent,
+    outlet: 'toolbar',
+  },
+  {
+    path: 'mail-settings',
+    component: MailSettingsComponent,
+  },
+  {
+    path: 'mail-settings',
+    component: MailSettingsToolbarComponent,
     outlet: 'toolbar',
   },
 ];
