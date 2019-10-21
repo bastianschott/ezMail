@@ -27,6 +27,8 @@ $ezMail-theme: mat-light-theme($ezMail-primary, $ezMail-accent, $ezMail-warn);
 
 /* You can add global styles to this file, and also import other style files */
 
+@import '~firebaseui/dist/firebaseui.css';
+
 html,
 body {
   height: 100%;
