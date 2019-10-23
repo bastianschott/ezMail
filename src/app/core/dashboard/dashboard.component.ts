@@ -1,17 +1,16 @@
+import { AuthenticationService } from './../../shared/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
-import { AuthenticationService } from 'src/app/shared/authentication.service';
 import { Router } from '@angular/router';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
@@ -33,18 +32,13 @@ export class DashboardComponent {
     })
   );
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private titleService: Title,
-    private authenticationService: AuthenticationService,
-    private router: Router
-  ) {
+  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private authService: AuthenticationService, private router: Router) {
     this.titleService.setTitle('Dashboard | ezMail');
-    // If Abfrage muss noch angepasst werden damit das Dashboard nur für eingeloggte User sichtbar wird....
-    console.log(!this.authenticationService.getUserIsLoggedIn$);
-    if (!this.authenticationService.getUserIsLoggedIn$) {
+    console.log('constructor:' + this.authService.getUserIsLoggedIn$());
+
+    if (!this.authService.getUserIsLoggedIn$()) {
+      console.log('in if:' + this.authService.getUserIsLoggedIn$());
       this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
-      //
     }
   }
 
@@ -55,4 +49,6 @@ export class DashboardComponent {
     }
     return item.id;
   }
+
+  ngOnInit() {}
 }
