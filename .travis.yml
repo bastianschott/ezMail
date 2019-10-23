@@ -23,7 +23,7 @@ before_script:
   #- npm install -g @angular/cli
 
 script:
-  - ng lint
+  #- ng lint
   #- npm run test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
   - ng build --prod --base-href './'
 
