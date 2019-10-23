@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   isLoggedIn(): Observable<boolean> {
-    return this.authService.isLoggedIn();
+    return this.authService.getUserIsLoggedIn$();
   }
 
   successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
