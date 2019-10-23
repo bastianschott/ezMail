@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +30,9 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title) {
+    this.titleService.setTitle('Dashboard | ezMail');
+  }
 
   // https://medium.com/better-programming/improving-angular-ngfor-performance-through-trackby-ae4cf943b878
   trackByFunction(item: any) {

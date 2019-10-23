@@ -8,10 +8,5 @@ import { AngularFirestore } from '@angular/fire/firestore';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'ezMail';
-
-  email: string;
-  password: string;
-
   constructor() {}
 }
