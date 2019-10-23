@@ -61,7 +61,7 @@
     "prefer-inline-decorator": true,
     "prefer-output-readonly": true,
     "template-conditional-complexity": [true, 4],
-    "template-cyclomatic-complexity": [true, 5],
+    //"template-cyclomatic-complexity": [true, 6],
     //"template-i18n": [true, "check-id", "check-text"],
     "template-use-track-by-function": true,
     "use-component-selector": true,

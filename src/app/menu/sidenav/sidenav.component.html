@@ -24,19 +24,38 @@
         (click)="closeSideNav()"
         ><fa-icon [icon]="faSignInAlt" class="fa-menu"></fa-icon>Login
       </a>
-      <a mat-list-item [routerLink]="[{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]" routerLinkActive="active" (click)="closeSideNav()">
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]"
+        routerLinkActive="active"
+        *ngIf="userIsLoggedIn$ | async"
+        (click)="closeSideNav()"
+      >
         <mat-icon>dashboard</mat-icon>Dashboard
       </a>
-      <a mat-list-item [routerLink]="[{ outlets: { primary: ['user'], toolbar: ['user'] } }]" routerLinkActive="active" (click)="closeSideNav()">
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['user'], toolbar: ['user'] } }]"
+        routerLinkActive="active"
+        *ngIf="userIsLoggedIn$ | async"
+        (click)="closeSideNav()"
+      >
         <mat-icon>person</mat-icon>Benutzer
       </a>
-      <a mat-list-item [routerLink]="[{ outlets: { primary: ['settings'], toolbar: ['settings'] } }]" routerLinkActive="active" (click)="closeSideNav()">
+      <a
+        mat-list-item
+        [routerLink]="[{ outlets: { primary: ['settings'], toolbar: ['settings'] } }]"
+        routerLinkActive="active"
+        *ngIf="userIsLoggedIn$ | async"
+        (click)="closeSideNav()"
+      >
         <mat-icon>settings</mat-icon>Einstellungen
       </a>
       <a
         mat-list-item
         [routerLink]="[{ outlets: { primary: ['mail-settings'], toolbar: ['mail-settings'] } }]"
         routerLinkActive="active"
+        *ngIf="userIsLoggedIn$ | async"
         (click)="closeSideNav()"
       >
         <mat-icon>email</mat-icon>Mail-Einstellungen

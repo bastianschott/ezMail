@@ -16,9 +16,7 @@ import { SettingsToolbarComponent } from './core/settings/settings-toolbar/setti
 
 const routes: Routes = [
   // initiale Routen
-  { path: '', component: DashboardComponent },
-  { path: '', component: DashboardToolbarComponent, outlet: 'toolbar' },
-  { path: '404', component: NotFoundComponent }, // 404
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
   {
     path: 'dashboard',
@@ -44,19 +42,23 @@ const routes: Routes = [
   },
   {
     path: 'mail-settings',
+    canActivate: [AuthGuard],
     component: MailSettingsComponent,
   },
   {
     path: 'mail-settings',
+    canActivate: [AuthGuard],
     component: MailSettingsToolbarComponent,
     outlet: 'toolbar',
   },
   {
     path: 'settings',
+    canActivate: [AuthGuard],
     component: SettingsComponent,
   },
   {
     path: 'settings',
+    canActivate: [AuthGuard],
     component: SettingsToolbarComponent,
     outlet: 'toolbar',
   },
@@ -69,6 +71,8 @@ const routes: Routes = [
     component: LoginToolbarComponent,
     outlet: 'toolbar',
   },
+  { path: '404', component: NotFoundComponent }, // 404
+  { path: '**', redirectTo: '404' }, // Added
 ];
 
 export const routingModule: ModuleWithProviders = RouterModule.forRoot(routes);
