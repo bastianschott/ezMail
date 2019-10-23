@@ -1,3 +1,5 @@
+import { NotFoundComponent } from './core/not-found/not-found.component';
+import { AuthGuard } from './shared/auth.guard';
 import { LoginComponent } from './core/login/login.component';
 import { LoginToolbarComponent } from './core/login/login-toolbar/login-toolbar.component';
 import { ToolbarComponent } from './menu/toolbar/toolbar.component';
@@ -16,22 +18,27 @@ const routes: Routes = [
   // initiale Routen
   { path: '', component: DashboardComponent },
   { path: '', component: DashboardToolbarComponent, outlet: 'toolbar' },
+  { path: '404', component: NotFoundComponent }, // 404
 
   {
     path: 'dashboard',
+    canActivate: [AuthGuard],
     component: DashboardComponent,
   },
   {
     path: 'dashboard',
     component: DashboardToolbarComponent,
+    canActivate: [AuthGuard],
     outlet: 'toolbar',
   },
   {
     path: 'user',
+    canActivate: [AuthGuard],
     component: UserComponent,
   },
   {
     path: 'user',
+    canActivate: [AuthGuard],
     component: UserToolbarComponent,
     outlet: 'toolbar',
   },

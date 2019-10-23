@@ -33,6 +33,8 @@ import { SettingsToolbarComponent } from './core/settings/settings-toolbar/setti
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './core/login/login.component';
 import { LoginToolbarComponent } from './core/login/login-toolbar/login-toolbar.component';
+import { NotFoundComponent } from './core/not-found/not-found.component';
+import { NotFoundToolbarComponent } from './core/not-found/not-found-toolbar/not-found-toolbar.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -66,6 +68,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     SettingsToolbarComponent,
     LoginComponent,
     LoginToolbarComponent,
+    NotFoundComponent,
+    NotFoundToolbarComponent,
   ],
   imports: [
     BrowserModule,
