@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { map, first, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, observable } from 'rxjs';
 
 interface User {
   uid: string;
@@ -45,10 +45,6 @@ export class AuthenticationService {
 
   logout(): Promise<void> {
     return this.afAuth.auth.signOut();
-  }
-
-  isLoggedIn(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map(user => !!user));
   }
 
   getUserIsLoggedIn$(): Observable<boolean> {
