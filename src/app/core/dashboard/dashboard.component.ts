@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
+import { AuthenticationService } from 'src/app/shared/authentication.service';
+import { Router } from '@angular/router';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,8 +33,19 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private titleService: Title,
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {
     this.titleService.setTitle('Dashboard | ezMail');
+    // If Abfrage muss noch angepasst werden damit das Dashboard nur für eingeloggte User sichtbar wird....
+    console.log(!this.authenticationService.getUserIsLoggedIn$);
+    if (!this.authenticationService.getUserIsLoggedIn$) {
+      this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
+      //
+    }
   }
 
   // https://medium.com/better-programming/improving-angular-ngfor-performance-through-trackby-ae4cf943b878
