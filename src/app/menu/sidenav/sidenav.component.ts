@@ -30,10 +30,6 @@ export class SidenavComponent implements OnInit {
     this.userIsLoggedIn$ = this.authenticationService.getUserIsLoggedIn$();
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.authenticationService.isLoggedIn();
-  }
-
   closeSideNav() {
     console.log('Drawer mode: ' + this.drawer.mode);
     if (this.drawer.mode === 'over') {
@@ -43,5 +39,9 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.userIsLoggedIn$ = this.authenticationService.getUserIsLoggedIn$();
+  }
+
+  onSwipe(evt) {
+    const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? this.drawer.open() : this.drawer.close()) : '';
   }
 }
