@@ -1,10 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthenticationService } from 'src/app/shared/authentication.service';
 
 export interface DialogData {
   email: string;
@@ -20,14 +17,10 @@ export class ToolbarComponent {
   email: string;
   password: string;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, public authenticationService: AuthenticationService) {}
 
   openLogin(): void {
-    // tslint:disable-next-line: no-use-before-declare
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '250px',
-      data: { email: this.email, password: this.password },
-    });
+    console.log(!this.authenticationService.getUserIsLoggedIn$());
   }
 
   openRegister(): void {
@@ -44,10 +37,7 @@ export class ToolbarComponent {
 })
 export class LoginDialogComponent {
   faGithub = faGithub;
-  constructor(
-    public dialogRef: MatDialogRef<LoginDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  constructor(public dialogRef: MatDialogRef<LoginDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -59,10 +49,7 @@ export class LoginDialogComponent {
   templateUrl: 'register-dialog.html',
 })
 export class RegisterDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<RegisterDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  constructor(public dialogRef: MatDialogRef<RegisterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   onNoClick(): void {
     this.dialogRef.close();
