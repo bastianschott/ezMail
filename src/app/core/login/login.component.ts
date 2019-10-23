@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseUISignInSuccessWithAuthResult, FirebaseUISignInFailure } from 'firebaseui-angular';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/shared/authentication.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ import { AuthenticationService } from 'src/app/shared/authentication.service';
 })
 export class LoginComponent implements OnInit {
   // https://github.com/RaphaelJenni/FirebaseUI-Angular/blob/master/src/app/main/main.component.ts
-  constructor(private afAuth: AngularFireAuth, private router: Router, private authService: AuthenticationService) {}
+  constructor(private afAuth: AngularFireAuth, private router: Router, private authService: AuthenticationService, private titleService: Title) {
+    this.titleService.setTitle('Login | ezMail');
+  }
 
   ngOnInit(): void {
     this.afAuth.authState.subscribe(d => console.log(d));
