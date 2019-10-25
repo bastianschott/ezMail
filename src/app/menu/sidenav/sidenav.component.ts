@@ -42,6 +42,8 @@ export class SidenavComponent implements OnInit {
   }
 
   onSwipe(evt) {
-    const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? this.drawer.open() : this.drawer.close()) : '';
+    if (this.drawer.mode === 'over') {
+      const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? this.drawer.open() : this.drawer.close()) : '';
+    }
   }
 }
