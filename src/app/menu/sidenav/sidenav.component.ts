@@ -31,7 +31,6 @@ export class SidenavComponent implements OnInit {
   }
 
   closeSideNav() {
-    console.log('Drawer mode: ' + this.drawer.mode);
     if (this.drawer.mode === 'over') {
       this.drawer.close();
     }
