@@ -20,13 +20,11 @@ const routes: Routes = [
 
   {
     path: 'dashboard',
-    canActivate: [AuthGuard],
     component: DashboardComponent,
   },
   {
     path: 'dashboard',
     component: DashboardToolbarComponent,
-    canActivate: [AuthGuard],
     outlet: 'toolbar',
   },
   {

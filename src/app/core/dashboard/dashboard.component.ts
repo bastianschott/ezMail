@@ -1,6 +1,6 @@
 import { AuthenticationService } from './../../shared/authentication.service';
-import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { map, take } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -32,15 +32,12 @@ export class DashboardComponent implements OnInit {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private authService: AuthenticationService, private router: Router) {
-    this.titleService.setTitle('Dashboard | ezMail');
-    console.log('constructor:' + this.authService.getUserIsLoggedIn$());
-
-    if (!this.authService.getUserIsLoggedIn$()) {
-      console.log('in if:' + this.authService.getUserIsLoggedIn$());
-      this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
-    }
-  }
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private titleService: Title,
+    private authService: AuthenticationService,
+    private router: Router
+  ) {}
 
   // https://medium.com/better-programming/improving-angular-ngfor-performance-through-trackby-ae4cf943b878
   trackByFunction(item: any) {
@@ -50,5 +47,17 @@ export class DashboardComponent implements OnInit {
     return item.id;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.titleService.setTitle('Dashboard | ezMail');
+    console.log('Testttt');
+
+    this.authService
+      .getUserIsLoggedIn$()
+      .pipe(take(1))
+      .subscribe(isauthenticated => {
+        if (!isauthenticated) {
+          this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
+        }
+      });
+  }
 }
