@@ -1,6 +1,7 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthenticationService } from './../../shared/authentication.service';
 import { Component, Inject } from '@angular/core';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -32,26 +33,36 @@ export class ToolbarComponent {
 }
 
 @Component({
-  selector: 'app-login-dialog',
-  templateUrl: 'login-dialog.html',
-})
-export class LoginDialogComponent {
-  faGithub = faGithub;
-  constructor(public dialogRef: MatDialogRef<LoginDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
-
-@Component({
   selector: 'app-register-dialog',
   templateUrl: 'register-dialog.html',
 })
 export class RegisterDialogComponent {
-  constructor(public dialogRef: MatDialogRef<RegisterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  smallScreen: boolean;
+
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<RegisterDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(result => {
+      this.smallScreen = result.matches;
+    });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  form1Submit(formValues: any): void {
+    console.log(formValues);
+  }
+
+  ngOnInit() {
+    this.firstFormGroup = this.formBuilder.group({
+      firstCtrl: ['', Validators.required],
+    });
   }
 }

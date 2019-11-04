@@ -54,4 +54,8 @@ export class AuthenticationService {
   getIdOfCurrentUser$(): Observable<string> {
     return this.afAuth.authState.pipe(map(user => (user ? user.uid : '')));
   }
+
+  getMailOfCurrentUser$(): Observable<string> {
+    return this.afAuth.authState.pipe(map(user => (user ? user.email : '')));
+  }
 }
