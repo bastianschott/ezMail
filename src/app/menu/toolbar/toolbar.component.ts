@@ -59,10 +59,4 @@ export class RegisterDialogComponent {
   form1Submit(formValues: any): void {
     console.log(formValues);
   }
-
-  ngOnInit() {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required],
-    });
-  }
 }

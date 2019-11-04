@@ -15,7 +15,6 @@ import { stringify } from '@angular/compiler/src/util';
 export class NewMaillistDialogComponent implements OnInit {
   // Responsive: https://stackoverflow.com/a/52989737/11061015
   smallScreen: boolean;
-  mail: string;
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -30,12 +29,6 @@ export class NewMaillistDialogComponent implements OnInit {
     breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(result => {
       this.smallScreen = result.matches;
     });
-  }
-
-  getUserMail(): string {
-    let mail: string = '';
-
-    return mail;
   }
 
   setCompletedForm1(): boolean {
@@ -58,8 +51,9 @@ export class NewMaillistDialogComponent implements OnInit {
 
   onSubmit() {
     console.log(this.firstFormGroup.value);
-    //this.dialogRef.close();
+    // this.dialogRef.close();
   }
+
   debug() {
     console.log(this.firstFormGroup.value);
     console.log(this.secondFormGroup.value);
@@ -67,13 +61,6 @@ export class NewMaillistDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService
-      .getMailOfCurrentUser$()
-      .pipe(take(1))
-      .subscribe(email => {
-        this.mail = email;
-      });
-
     // TODO: Um schneller einen neuen Verteiler anlegen zu können, sind hier bereits Default-Werte hinterlegt. Dient ausschließlich zu Debugzwecken
     this.firstFormGroup = this.formBuilder.group({
       verteilerName: ['Test-Verteiler', Validators.required],
