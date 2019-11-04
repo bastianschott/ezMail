@@ -53,9 +53,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 };
 
 export class MyHammerConfig extends HammerGestureConfig {
-  overrides = <any>{
+  overrides = {
     swipe: { direction: Hammer.DIRECTION_ALL },
-  };
+  } as any;
 }
 
 @NgModule({
