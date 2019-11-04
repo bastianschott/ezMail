@@ -10,9 +10,11 @@ import { LayoutModule } from '@angular/cdk/layout';
 import * as Hammer from 'hammerjs';
 
 // Firebase
-import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
+import { FirebaseUIModule, firebaseui } from 'firebaseui-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 // Material components
 import { MaterialModule } from './material/material.module';
