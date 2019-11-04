@@ -1,4 +1,4 @@
-import { Mailinglist } from './mailinglist';
+import { Mailinglist, MailinglistBlueprint } from './mailinglist';
 import { AuthenticationService } from './../authentication.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
@@ -20,7 +20,7 @@ export class MailinglistsService {
             map(actions =>
               actions.map(a => {
                 const mailinglist = a.payload.doc.data() as Mailinglist;
-                mailinglist.maillistId = a.payload.doc.id;
+                mailinglist.verteilerId = a.payload.doc.id;
                 return mailinglist;
               })
             )
@@ -29,7 +29,23 @@ export class MailinglistsService {
     );
   }
 
-  createMailinglist(mailinglist: Mailinglist) {
-    this.db.collection('mailinglist').add(mailinglist);
+  createMailinglist(mailinglistBlueprint: MailinglistBlueprint) {
+    this.authService
+      .getIdOfCurrentUser$()
+      .pipe(take(1))
+      .subscribe(userId => {
+        let mailinglist = {
+          verteilerName: mailinglistBlueprint.verteilerName,
+          verteilerMail: mailinglistBlueprint.verteilerMail,
+          mailadressen: mailinglistBlueprint.mailadressen,
+          eigentuemer: mailinglistBlueprint.eigentuemer,
+          privateListe: mailinglistBlueprint.privateListe,
+          moderierteListe: mailinglistBlueprint.moderierteListe,
+          userId,
+          timeCreated: Date.now(),
+          timeModified: 0,
+        } as Mailinglist;
+        this.db.collection('mailinglist').add(mailinglist);
+      });
   }
 }

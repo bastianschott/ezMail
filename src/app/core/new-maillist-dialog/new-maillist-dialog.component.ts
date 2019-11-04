@@ -6,6 +6,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { stringify } from '@angular/compiler/src/util';
+import { Mailinglist, MailinglistBlueprint } from 'src/app/shared/ezmail/mailinglist';
+import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
 
 @Component({
   selector: 'app-new-maillist-dialog',
@@ -24,7 +26,8 @@ export class NewMaillistDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<NewMaillistDialogComponent>,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private mailinglistService: MailinglistsService
   ) {
     breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(result => {
       this.smallScreen = result.matches;
@@ -50,8 +53,26 @@ export class NewMaillistDialogComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('Submit triggered!');
     console.log(this.firstFormGroup.value);
-    // this.dialogRef.close();
+    this.mailinglistService.createMailinglist(this.createMailinglist());
+    this.dialogRef.close();
+  }
+
+  createMailinglist(): MailinglistBlueprint {
+    // tslint:disable-next-line: prefer-const
+    let mailinglist = {
+      verteilerName: this.firstFormGroup.value.verteilerName,
+      verteilerMail: this.firstFormGroup.value.verteilerMail,
+
+      mailadressen: this.secondFormGroup.value.mailadressen,
+
+      eigentuemer: this.thirdFormGroup.value.eigentuemer,
+      privateListe: this.thirdFormGroup.value.privateListe,
+      moderierteListe: this.thirdFormGroup.value.moderierteListe,
+    } as MailinglistBlueprint;
+
+    return mailinglist;
   }
 
   debug() {
