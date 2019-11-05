@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../../shared/authentication.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
@@ -8,6 +8,8 @@ import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service'
 import { Mailinglist } from 'src/app/shared/ezmail/mailinglist';
 import { Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,10 +17,18 @@ import { DataSource } from '@angular/cdk/table';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  /** Based on the screen size, switch from standard to one column per row */
-  mailinglists: Mailinglist[];
-  displayedColumns = ['verteilerName', 'verteilerMail', 'eigentuemer', 'mailadressen', 'privateListe', 'moderierteListe', 'action'];
+  displayedColumns: string[] = [
+    'verteilerName',
+    'verteilerMail',
+    'eigentuemer',
+    'mailadressen',
+    'privateListe',
+    'moderierteListe',
+    'action',
+  ];
   dataSource = new MailinglistDataSource(this.mailinglistsService);
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private titleService: Title,
@@ -27,16 +37,13 @@ export class DashboardComponent implements OnInit {
     private mailinglistsService: MailinglistsService
   ) {}
 
-  // https://medium.com/better-programming/improving-angular-ngfor-performance-through-trackby-ae4cf943b878
-  trackByFunction(item: any) {
-    if (!item) {
-      return null;
-    }
-    return item.id;
+  delete(verteilerMail: string) {
+    this.mailinglistsService.deleteMailinglist(verteilerMail);
   }
 
   ngOnInit() {
     this.titleService.setTitle('Dashboard | ezMail');
+    this.paginator = this.paginator;
 
     this.authService
       .getUserIsLoggedIn$()
@@ -46,15 +53,6 @@ export class DashboardComponent implements OnInit {
           this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
         }
       });
-
-    this.mailinglistsService
-      .getMailinglists$()
-      .pipe(take(1))
-      .subscribe(list => {
-        this.mailinglists = list;
-        console.log(list);
-      });
-    console.log(this.mailinglists);
   }
 }
 
@@ -64,7 +62,7 @@ export class MailinglistDataSource extends DataSource<any> {
   }
 
   connect() {
-    return this.mailinglistsService.getList();
+    return this.mailinglistsService.getMailinglist$();
   }
 
   disconnect(): void {}

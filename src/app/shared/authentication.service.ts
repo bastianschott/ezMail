@@ -18,6 +18,7 @@ interface User {
 })
 export class AuthenticationService {
   user: Observable<User>;
+
   constructor(private router: Router, private afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.user = this.afAuth.authState.pipe(
       switchMap(user => {

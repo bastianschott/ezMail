@@ -11,30 +11,22 @@ import { Observable, of } from 'rxjs';
 export class MailinglistsService {
   constructor(private db: AngularFirestore, private authService: AuthenticationService) {}
 
-  getMailinglists$(): Observable<Mailinglist[]> {
+  getMailinglist$() {
     return this.authService.getIdOfCurrentUser$().pipe(
       switchMap(userId => {
-        return this.db
-          .collection<Mailinglist>('mailinglists', ref => ref.where(`element.${userId}`, '>', ''))
-          .snapshotChanges()
-          .pipe(
-            map(actions =>
-              actions.map(a => {
-                const mailinglist = a.payload.doc.data() as Mailinglist;
-                mailinglist.verteilerId = a.payload.doc.id;
-                return mailinglist;
-              })
-            )
-          );
+        if (!userId) {
+          return of([]);
+        }
+        return this.db.collection('mailinglists', ref => ref.where('userId', '==', userId)).valueChanges();
       })
     );
   }
 
-  getList() {
-    return this.db.collection('mailinglists', ref => ref.orderBy('verteilerName')).valueChanges();
-  }
-
   createMailinglist(mailinglistBlueprint: MailinglistBlueprint) {
+    if (this.checkIfMailAlreadyExists(mailinglistBlueprint.verteilerMail)) {
+      console.warn('Mail already in use');
+      return;
+    }
     this.authService
       .getIdOfCurrentUser$()
       .pipe(take(1))
@@ -52,5 +44,18 @@ export class MailinglistsService {
         } as Mailinglist;
         this.db.collection('mailinglists').add(mailinglist);
       });
+  }
+
+  deleteMailinglist(verteilerMail: string) {
+    this.db.collection('mailinglists');
+    console.log(verteilerMail);
+  }
+
+  checkIfMailAlreadyExists(mail: string): boolean {
+    // TODO: Logik, welche prüft, ob die mail bereits vorhanden ist
+    const list = this.db.collection('mailinglists', ref => ref.where('verteilerMail', '==', mail));
+    list.get();
+
+    return false;
   }
 }
