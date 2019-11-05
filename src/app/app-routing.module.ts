@@ -16,7 +16,8 @@ import { SettingsToolbarComponent } from './core/settings/settings-toolbar/setti
 
 const routes: Routes = [
   // initiale Routen
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', component: DashboardComponent },
+  { path: '', component: DashboardToolbarComponent, outlet: 'toolbar' },
 
   {
     path: 'dashboard',
@@ -40,12 +41,12 @@ const routes: Routes = [
   },
   {
     path: 'mail-settings',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     component: MailSettingsComponent,
   },
   {
     path: 'mail-settings',
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     component: MailSettingsToolbarComponent,
     outlet: 'toolbar',
   },
