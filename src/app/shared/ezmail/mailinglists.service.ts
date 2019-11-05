@@ -3,6 +3,7 @@ import { AuthenticationService } from './../authentication.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { switchMap, map, take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +11,11 @@ import { switchMap, map, take, tap } from 'rxjs/operators';
 export class MailinglistsService {
   constructor(private db: AngularFirestore, private authService: AuthenticationService) {}
 
-  getMailinglists$() {
+  getMailinglists$(): Observable<Mailinglist[]> {
     return this.authService.getIdOfCurrentUser$().pipe(
       switchMap(userId => {
         return this.db
-          .collection<Mailinglist>('mailinglists', ref => ref.where(`members.${userId}`, '>', ''))
+          .collection<Mailinglist>('mailinglists', ref => ref.where(`element.${userId}`, '>', ''))
           .snapshotChanges()
           .pipe(
             map(actions =>
@@ -29,12 +30,16 @@ export class MailinglistsService {
     );
   }
 
+  getList() {
+    return this.db.collection('mailinglists', ref => ref.orderBy('verteilerName')).valueChanges();
+  }
+
   createMailinglist(mailinglistBlueprint: MailinglistBlueprint) {
     this.authService
       .getIdOfCurrentUser$()
       .pipe(take(1))
       .subscribe(userId => {
-        let mailinglist = {
+        const mailinglist = {
           verteilerName: mailinglistBlueprint.verteilerName,
           verteilerMail: mailinglistBlueprint.verteilerMail,
           mailadressen: mailinglistBlueprint.mailadressen,
@@ -45,7 +50,7 @@ export class MailinglistsService {
           timeCreated: Date.now(),
           timeModified: 0,
         } as Mailinglist;
-        this.db.collection('mailinglist').add(mailinglist);
+        this.db.collection('mailinglists').add(mailinglist);
       });
   }
 }

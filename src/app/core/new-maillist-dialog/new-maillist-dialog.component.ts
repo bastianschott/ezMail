@@ -54,7 +54,7 @@ export class NewMaillistDialogComponent implements OnInit {
 
   onSubmit() {
     console.log('Submit triggered!');
-    console.log(this.firstFormGroup.value);
+    console.log(this.createMailinglist());
     this.mailinglistService.createMailinglist(this.createMailinglist());
     this.dialogRef.close();
   }
