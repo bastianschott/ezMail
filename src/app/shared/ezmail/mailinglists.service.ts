@@ -1,4 +1,4 @@
-import { Mailinglist, MailinglistBlueprint } from './mailinglist';
+import { Mailinglist, MailinglistTemplate } from './mailinglist';
 import { AuthenticationService } from './../authentication.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
@@ -22,7 +22,7 @@ export class MailinglistsService {
     );
   }
 
-  createMailinglist(mailinglistBlueprint: MailinglistBlueprint) {
+  createMailinglist(mailinglistBlueprint: MailinglistTemplate) {
     if (this.checkIfMailAlreadyExists(mailinglistBlueprint.verteilerMail)) {
       console.warn('Mail already in use');
       return;
@@ -32,6 +32,7 @@ export class MailinglistsService {
       .pipe(take(1))
       .subscribe(userId => {
         const mailinglist = {
+          verteilerId: '',
           verteilerName: mailinglistBlueprint.verteilerName,
           verteilerMail: mailinglistBlueprint.verteilerMail,
           mailadressen: mailinglistBlueprint.mailadressen,
@@ -42,20 +43,31 @@ export class MailinglistsService {
           timeCreated: Date.now(),
           timeModified: 0,
         } as Mailinglist;
-        this.db.collection('mailinglists').add(mailinglist);
+        this.db
+          .collection('mailinglists')
+          .add(mailinglist)
+          .then(ref => {
+            this.db
+              .collection('mailinglists')
+              .doc(ref.id)
+              .update({ verteilerId: ref.id });
+          });
       });
   }
 
-  deleteMailinglist(verteilerMail: string) {
-    this.db.collection('mailinglists');
-    console.log(verteilerMail);
+  deleteMailinglist(verteilerId: string) {
+    this.db
+      .collection('mailinglists')
+      .doc(verteilerId)
+      .delete();
+    console.log('Mailinglist with ID: ' + verteilerId + ' deleted');
   }
 
   checkIfMailAlreadyExists(mail: string): boolean {
     // TODO: Logik, welche prüft, ob die mail bereits vorhanden ist
     const list = this.db.collection('mailinglists', ref => ref.where('verteilerMail', '==', mail));
     list.get();
-
+    console.log('checkIfMailAlreadyExists ' + list);
     return false;
   }
 }

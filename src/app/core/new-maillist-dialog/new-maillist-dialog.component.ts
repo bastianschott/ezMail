@@ -6,7 +6,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { stringify } from '@angular/compiler/src/util';
-import { Mailinglist, MailinglistBlueprint } from 'src/app/shared/ezmail/mailinglist';
+import { Mailinglist, MailinglistTemplate } from 'src/app/shared/ezmail/mailinglist';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
 
 @Component({
@@ -59,7 +59,7 @@ export class NewMaillistDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  createMailinglist(): MailinglistBlueprint {
+  createMailinglist(): MailinglistTemplate {
     // tslint:disable-next-line: prefer-const
     let mailinglist = {
       verteilerName: this.firstFormGroup.value.verteilerName,
@@ -70,7 +70,7 @@ export class NewMaillistDialogComponent implements OnInit {
       eigentuemer: this.thirdFormGroup.value.eigentuemer,
       privateListe: this.thirdFormGroup.value.privateListe,
       moderierteListe: this.thirdFormGroup.value.moderierteListe,
-    } as MailinglistBlueprint;
+    } as MailinglistTemplate;
 
     return mailinglist;
   }

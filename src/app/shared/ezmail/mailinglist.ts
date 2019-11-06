@@ -11,7 +11,7 @@ export interface Mailinglist {
   timeModified: number;
 }
 
-export interface MailinglistBlueprint {
+export interface MailinglistTemplate {
   verteilerName: string;
   verteilerMail: string;
   mailadressen: string;
