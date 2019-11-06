@@ -13,6 +13,9 @@ Travis CI is running on this repository. It is configured to lint the code autom
 
 ## Used Tools
 The project is based on `Angular 8.1.2`.
+
 It uses `Angular Material` as default theme.
+
 `Hammer.JS` is used for swipe gestures.
+
 To store data, `Google Firebase` is used.
