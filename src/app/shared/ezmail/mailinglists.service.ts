@@ -10,8 +10,17 @@ import { MailinglistDataSource } from 'src/app/core/dashboard/dashboard.componen
   providedIn: 'root',
 })
 export class MailinglistsService {
+  /**
+   * Verwaltung der Mailinglisten. Der Service erlaubt die Verwaltung der Listen innerhalb der Datenbank.
+   * @param db AngularFirestore
+   * @param authService Authenticationservice
+   */
   constructor(private db: AngularFirestore, private authService: AuthenticationService) {}
 
+  /**
+   * Liefert alle Mailinglisten, auf die der eingeloggte Benutzer zugriff hat, zurück.
+   * @returns Mailinglisten des Benutzers
+   */
   getMailinglist$(): Observable<Mailinglist[]> {
     return this.authService.getIdOfCurrentUser$().pipe(
       switchMap(userId => {
@@ -23,8 +32,12 @@ export class MailinglistsService {
     );
   }
 
-  createMailinglist(mailinglistBlueprint: MailinglistTemplate) {
-    if (this.checkIfMailAlreadyExists(mailinglistBlueprint.verteilerMail)) {
+  /**
+   * Erstellt eine neue Mailingliste aus einer Vorlage und speichert diese in die Datenbank ab.
+   * @param mailinglistTemplate Initiale Vorlage einer Mailingliste
+   */
+  createMailinglist(mailinglistTemplate: MailinglistTemplate) {
+    if (this.checkIfMailAlreadyExists(mailinglistTemplate.verteilerMail)) {
       console.warn('Mail already in use');
       return;
     }
@@ -34,12 +47,12 @@ export class MailinglistsService {
       .subscribe(userId => {
         const mailinglist = {
           verteilerId: '',
-          verteilerName: mailinglistBlueprint.verteilerName,
-          verteilerMail: mailinglistBlueprint.verteilerMail,
-          mailadressen: mailinglistBlueprint.mailadressen,
-          eigentuemer: mailinglistBlueprint.eigentuemer,
-          privateListe: mailinglistBlueprint.privateListe,
-          moderierteListe: mailinglistBlueprint.moderierteListe,
+          verteilerName: mailinglistTemplate.verteilerName,
+          verteilerMail: mailinglistTemplate.verteilerMail,
+          mailadressen: mailinglistTemplate.mailadressen,
+          eigentuemer: mailinglistTemplate.eigentuemer,
+          privateListe: mailinglistTemplate.privateListe,
+          moderierteListe: mailinglistTemplate.moderierteListe,
           userId,
           timeCreated: Date.now(),
           timeModified: 0,
@@ -56,6 +69,10 @@ export class MailinglistsService {
       });
   }
 
+  /**
+   * Löscht die Mailingliste
+   * @param verteilerId ID der zu löschenden Mailingliste
+   */
   deleteMailinglist(verteilerId: string) {
     this.db
       .collection('mailinglists')
@@ -64,6 +81,12 @@ export class MailinglistsService {
     console.log('Mailinglist with ID: ' + verteilerId + ' deleted');
   }
 
+  /**
+   * Prüft, ob die Mailadresse bereits in einer anderen Mailingliste, unabhängig des Benutzers, vorhanden ist. NICHT LAUFFÄHIG!
+   * @param mail Zu prüfende Mail-Adresse
+   * @returns true, wenn bereits vorhanden, ansonsten false
+   * @
+   */
   checkIfMailAlreadyExists(mail: string): boolean {
     // TODO: Logik, welche prüft, ob die mail bereits vorhanden ist
     const list = this.db.collection('mailinglists', ref => ref.where('verteilerMail', '==', mail));
