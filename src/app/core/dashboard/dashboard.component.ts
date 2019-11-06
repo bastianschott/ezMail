@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../../shared/authentication.service';
-import { Component, OnInit, OnDestroy, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Inject, AfterViewInit } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
@@ -12,13 +12,17 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DashboardService } from './dashboard.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  providers: [DashboardService],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
+  dataSource = new MatTableDataSource<Mailinglist>();
   displayedColumns: string[] = [
     'verteilerName',
     'verteilerMail',
@@ -28,7 +32,7 @@ export class DashboardComponent implements OnInit {
     'moderierteListe',
     'action',
   ];
-  dataSource = new MailinglistDataSource(this.mailinglistsService);
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -37,19 +41,9 @@ export class DashboardComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private mailinglistsService: MailinglistsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private dashboardService: DashboardService
   ) {}
-
-  openDeleteDialog(mailinglist: Mailinglist) {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: { mailinglist },
-    });
-  }
-
-  openNewMaillistDialog(): void {
-    // tslint:disable-next-line: no-use-before-declare
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {});
-  }
 
   ngOnInit() {
     this.titleService.setTitle('Dashboard | ezMail');
@@ -63,6 +57,32 @@ export class DashboardComponent implements OnInit {
           this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
         }
       });
+  }
+
+  ngAfterViewInit() {
+    this.dashboardService.getMailinglists().subscribe(data => {
+      this.dataSource.data = data;
+      console.log(this.dataSource.data);
+    });
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
+  openDeleteDialog(mailinglist: Mailinglist) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: { mailinglist },
+    });
+  }
+
+  openNewMaillistDialog(): void {
+    // tslint:disable-next-line: no-use-before-declare
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {});
   }
 }
 

@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { switchMap, map, take, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { MailinglistDataSource } from 'src/app/core/dashboard/dashboard.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,13 @@ import { Observable, of } from 'rxjs';
 export class MailinglistsService {
   constructor(private db: AngularFirestore, private authService: AuthenticationService) {}
 
-  getMailinglist$() {
+  getMailinglist$(): Observable<Mailinglist[]> {
     return this.authService.getIdOfCurrentUser$().pipe(
       switchMap(userId => {
         if (!userId) {
           return of([]);
         }
-        return this.db.collection('mailinglists', ref => ref.where('userId', '==', userId)).valueChanges();
+        return this.db.collection<Mailinglist[]>('mailinglists', ref => ref.where('userId', '==', userId)).valueChanges();
       })
     );
   }

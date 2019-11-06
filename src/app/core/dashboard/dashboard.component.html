@@ -1,3 +1,9 @@
+<div class="example-header">
+  <mat-form-field>
+    <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Search" />
+  </mat-form-field>
+</div>
+
 <div class="mat-elevation-z8">
   <table #table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="verteilerName">
@@ -46,5 +52,5 @@
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[1, 5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
 </div>
