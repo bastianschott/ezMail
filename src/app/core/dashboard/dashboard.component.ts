@@ -1,13 +1,10 @@
 import { AuthenticationService } from './../../shared/authentication.service';
-import { Component, OnInit, OnDestroy, ViewChild, Inject, AfterViewInit } from '@angular/core';
-import { map, take } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
-import { Mailinglist, MailinglistTemplate } from 'src/app/shared/ezmail/mailinglist';
-import { Observable } from 'rxjs';
-import { DataSource } from '@angular/cdk/table';
+import { Mailinglist } from 'src/app/shared/ezmail/mailinglist';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -84,18 +81,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // tslint:disable-next-line: no-use-before-declare
     const dialogRef = this.dialog.open(DeleteDialogComponent, {});
   }
-}
-
-export class MailinglistDataSource extends DataSource<any> {
-  constructor(private mailinglistsService: MailinglistsService) {
-    super();
-  }
-
-  connect() {
-    return this.mailinglistsService.getMailinglist$();
-  }
-
-  disconnect(): void {}
 }
 
 @Component({
