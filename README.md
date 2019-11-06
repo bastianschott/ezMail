@@ -9,4 +9,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Clone repository, then run `npm i` to load dependencies. Run `npm start`-script to serve a developement server at `http://localhost:4200/`.
 
 ## Continuous Integration
-Travis CI is running on this repository. It is configured to lint the code automatically. If the lint and build is passing, Travis will deploy a productive build on `https://bastianschott.github.io/ezMail/`.
+Travis CI is running on this repository. It is configured to lint the code automatically. If the lint and build is passing, Travis will deploy a productive build on https://bastianschott.github.io/ezMail/.
