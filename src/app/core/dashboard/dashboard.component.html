@@ -29,14 +29,14 @@
     <ng-container matColumnDef="privateListe">
       <mat-header-cell *matHeaderCellDef> Privat </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.privateListe" (click)="toggleCheckbox(element, 'privateListe')"></mat-checkbox>
+        <mat-slide-toggle [(ngModel)]="element.privateListe" (click)="toggleCheckbox(element, 'privateListe')"></mat-slide-toggle>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="moderierteListe">
       <mat-header-cell *matHeaderCellDef> Moderiert </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.moderierteListe" (click)="toggleCheckbox(element, 'moderierteListe')"></mat-checkbox>
+        <mat-slide-toggle [(ngModel)]="element.moderierteListe" (click)="toggleCheckbox(element, 'moderierteListe')"></mat-slide-toggle>
       </mat-cell>
     </ng-container>
 
