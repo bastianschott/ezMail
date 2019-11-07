@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { map, first, switchMap, take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
-import { Observable, of, observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 interface User {
   uid: string;
