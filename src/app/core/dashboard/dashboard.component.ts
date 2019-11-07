@@ -1,6 +1,5 @@
 import { AuthenticationService } from './../../shared/authentication.service';
 import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
-import { take } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
@@ -43,17 +42,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    this.authService.setRoutingDestination();
     this.titleService.setTitle('Dashboard | ezMail');
-    this.paginator = this.paginator;
 
-    this.authService
-      .getUserIsLoggedIn$()
-      .pipe(take(1))
-      .subscribe(isauthenticated => {
-        if (!isauthenticated) {
-          this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
-        }
-      });
+    this.paginator = this.paginator;
   }
 
   ngAfterViewInit() {
