@@ -2,16 +2,16 @@ import { Mailinglist, MailinglistTemplate } from './mailinglist';
 import { AuthenticationService } from './../authentication.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
-import { switchMap, map, take, tap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { MailinglistDataSource } from 'src/app/core/dashboard/dashboard.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MailinglistsService {
   /**
-   * Verwaltung der Mailinglisten. Der Service erlaubt die Verwaltung der Listen innerhalb der Datenbank.
+   * Verwaltung der Mailinglisten.
+   * @remarks Der Service erlaubt die Verwaltung der Listen innerhalb der Datenbank.
    * @param db AngularFirestore
    * @param authService Authenticationservice
    */
