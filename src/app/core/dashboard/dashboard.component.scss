@@ -10,6 +10,11 @@ button {
   margin-left: 0.5em;
 }
 
+mat-checkbox {
+  margin-left: 0.7em;
+  margin-right: 0.7em;
+}
+
 // https://stackoverflow.com/questions/53020792/how-to-set-width-of-mat-table-column-in-angular
 .mat-column-verteilerName {
   word-wrap: break-word !important;

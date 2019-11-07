@@ -1,7 +1,6 @@
 import { AuthenticationService } from './../../shared/authentication.service';
 import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
 import { Mailinglist } from 'src/app/shared/ezmail/mailinglist';
 import { MatSort } from '@angular/material/sort';
@@ -18,8 +17,8 @@ import { MatTableDataSource } from '@angular/material/table';
   providers: [DashboardService],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  dataSource = new MatTableDataSource<Mailinglist>();
-  displayedColumns: string[] = [
+  private dataSource = new MatTableDataSource<Mailinglist>();
+  private displayedColumns: string[] = [
     'verteilerName',
     'verteilerMail',
     'eigentuemer',
@@ -35,10 +34,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private titleService: Title,
     private authService: AuthenticationService,
-    private router: Router,
-    private mailinglistsService: MailinglistsService,
     public dialog: MatDialog,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private mailinglistService: MailinglistsService
   ) {}
 
   ngOnInit() {
@@ -57,21 +55,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(filterValue: string) {
+  private applyFilter(filterValue: string): void {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
-  openDeleteDialog(mailinglist: Mailinglist) {
+  private openDeleteDialog(mailinglist: Mailinglist): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: { mailinglist },
     });
   }
 
-  openNewMaillistDialog(): void {
-    // tslint:disable-next-line: no-use-before-declare
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {});
+  private toggleCheckbox(mailinglist: Mailinglist, checkbox: string): void {
+    if (checkbox === 'privateListe') {
+      this.mailinglistService.togglePrivateListe(mailinglist);
+    }
+
+    if (checkbox === 'moderierteListe') {
+      this.mailinglistService.toggleModerierteListe(mailinglist);
+    }
   }
 }
 
@@ -83,7 +86,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 export class DeleteDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private mailinglistService: MailinglistsService, private snackBar: MatSnackBar) {}
 
-  deleteMailinglist(mailinglist: Mailinglist) {
+  protected deleteMailinglist(mailinglist: Mailinglist): void {
     this.mailinglistService.deleteMailinglist(mailinglist.verteilerId);
     this.snackBar.open('Verteiler ' + mailinglist.verteilerName + ' erfolgreich gelöscht!', '', { duration: 2000 });
   }

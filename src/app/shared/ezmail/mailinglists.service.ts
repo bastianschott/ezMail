@@ -75,7 +75,7 @@ export class MailinglistsService {
    */
   deleteMailinglist(verteilerId: string) {
     this.db
-      .collection('mailinglists')
+      .collection<Mailinglist[]>('mailinglists')
       .doc(verteilerId)
       .delete();
     console.log('Mailinglist with ID: ' + verteilerId + ' deleted');
@@ -93,5 +93,45 @@ export class MailinglistsService {
     list.get();
     console.log('checkIfMailAlreadyExists ' + list);
     return false;
+  }
+
+  /**
+   * Ändert das boolean-Feld "Private Liste"
+   * @param mailinglist Liste, in der privateListe aktualisiert werden soll
+   */
+  togglePrivateListe(mailinglist: Mailinglist): void {
+    this.db
+      .collection<Mailinglist[]>('mailinglists')
+      .doc(mailinglist.verteilerId)
+      .update({
+        privateListe: !mailinglist.privateListe,
+        timeModified: Date.now(),
+      });
+  }
+
+  /**
+   * Ändert das boolean-Feld "Moderierte Liste"
+   * @param mailinglist Liste, in der moderierteListe aktualisiert werden soll
+   */
+  toggleModerierteListe(mailinglist: Mailinglist): void {
+    this.db
+      .collection<Mailinglist[]>('mailinglists')
+      .doc(mailinglist.verteilerId)
+      .update({
+        moderierteListe: !mailinglist.moderierteListe,
+        timeModified: Date.now(),
+      });
+  }
+
+  /**
+   * Aktualisiert das Feld timeModified der eingegebenen Mailingliste.
+   * @param mailinglist Liste, in der timeModified aktualisiert werden soll
+   * @deprecated Sollte in den jeweiligen Methoden direkt aktualisiert werden, um doppelte Datenbank-Zugriffe zu vermeiden.
+   */
+  private updateTimeModified(mailinglist: Mailinglist) {
+    this.db
+      .collection<Mailinglist[]>('mailinglists')
+      .doc(mailinglist.verteilerId)
+      .update({ timeModified: Date.now() });
   }
 }
