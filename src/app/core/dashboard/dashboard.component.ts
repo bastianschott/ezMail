@@ -17,8 +17,8 @@ import { MatTableDataSource } from '@angular/material/table';
   providers: [DashboardService],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  private dataSource = new MatTableDataSource<Mailinglist>();
-  private displayedColumns: string[] = [
+  dataSource = new MatTableDataSource<Mailinglist>();
+  displayedColumns: string[] = [
     'verteilerName',
     'verteilerMail',
     'eigentuemer',
@@ -55,19 +55,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private applyFilter(filterValue: string): void {
+  applyFilter(filterValue: string): void {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
-  private openDeleteDialog(mailinglist: Mailinglist): void {
+  openDeleteDialog(mailinglist: Mailinglist): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: { mailinglist },
     });
   }
 
-  private toggleCheckbox(mailinglist: Mailinglist, checkbox: string): void {
+  toggleCheckbox(mailinglist: Mailinglist, checkbox: string): void {
     if (checkbox === 'privateListe') {
       this.mailinglistService.togglePrivateListe(mailinglist);
     }
@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 export class DeleteDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private mailinglistService: MailinglistsService, private snackBar: MatSnackBar) {}
 
-  protected deleteMailinglist(mailinglist: Mailinglist): void {
+  deleteMailinglist(mailinglist: Mailinglist): void {
     this.mailinglistService.deleteMailinglist(mailinglist.verteilerId);
     this.snackBar.open('Verteiler ' + mailinglist.verteilerName + ' erfolgreich gelöscht!', '', { duration: 2000 });
   }
