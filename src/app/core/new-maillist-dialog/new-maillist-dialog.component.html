@@ -33,10 +33,19 @@
     <form class="new-maillist" [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Erweitert</ng-template>
       <mat-form-field class="field">
-        <input matInput type="email" placeholder="Eigentümer" formControlName="eigentuemer" required matTooltip="Eigentümer und Moderator der Verteilerliste" />
+        <input
+          matInput
+          type="email"
+          placeholder="Eigentümer"
+          formControlName="eigentuemer"
+          required
+          matTooltip="Eigentümer und Moderator der Verteilerliste"
+        />
       </mat-form-field>
       <p>
-        <mat-checkbox class="field" formControlName="privateListe" matTooltip="Nur Listenteilnehmer dürfen an die Liste schreiben">Private Liste</mat-checkbox>
+        <mat-checkbox class="field" formControlName="privateListe" matTooltip="Nur Listenteilnehmer dürfen an die Liste schreiben">
+          Private Liste
+        </mat-checkbox>
       </p>
       <p>
         <mat-checkbox
@@ -50,7 +59,6 @@
       <div>
         <button mat-raised-button matStepperPrevious>Zurück</button>
         <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Erstellen</button>
-        <button mat-raised-button color="warn" (click)="debug()">Debug</button>
       </div>
     </form>
   </mat-step>

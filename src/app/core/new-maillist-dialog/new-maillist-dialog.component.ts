@@ -1,12 +1,10 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/shared/authentication.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { DialogData } from './../../menu/toolbar/toolbar.component';
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { stringify } from '@angular/compiler/src/util';
-import { Mailinglist, MailinglistTemplate } from 'src/app/shared/ezmail/mailinglist';
+import { MailinglistTemplate } from 'src/app/shared/ezmail/mailinglist';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
 
 @Component({
@@ -28,60 +26,13 @@ export class NewMaillistDialogComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private authService: AuthenticationService,
     private mailinglistService: MailinglistsService
-  ) {
-    breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(result => {
-      this.smallScreen = result.matches;
-    });
-  }
-
-  setCompletedForm1(): boolean {
-    return true;
-  }
-
-  getErrorMessageForm1(): string {
-    return 'Eingaben fehlen';
-  }
-  getErrorMessageForm2(): string {
-    return 'Eingaben fehlen';
-  }
-  getErrorMessageForm3(): string {
-    return 'Eingaben fehlen';
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onSubmit() {
-    console.log('Submit triggered!');
-    console.log(this.createMailinglist());
-    this.mailinglistService.createMailinglist(this.createMailinglist());
-    this.dialogRef.close();
-  }
-
-  createMailinglist(): MailinglistTemplate {
-    // tslint:disable-next-line: prefer-const
-    let mailinglist = {
-      verteilerName: this.firstFormGroup.value.verteilerName,
-      verteilerMail: this.firstFormGroup.value.verteilerMail,
-
-      mailadressen: this.secondFormGroup.value.mailadressen,
-
-      eigentuemer: this.thirdFormGroup.value.eigentuemer,
-      privateListe: this.thirdFormGroup.value.privateListe,
-      moderierteListe: this.thirdFormGroup.value.moderierteListe,
-    } as MailinglistTemplate;
-
-    return mailinglist;
-  }
-
-  debug() {
-    console.log(this.firstFormGroup.value);
-    console.log(this.secondFormGroup.value);
-    console.log(this.thirdFormGroup.value);
-  }
+  ) {}
 
   ngOnInit() {
+    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(result => {
+      this.smallScreen = result.matches;
+    });
+
     // TODO: Um schneller einen neuen Verteiler anlegen zu können, sind hier bereits Default-Werte hinterlegt. Dient ausschließlich zu Debugzwecken
     this.firstFormGroup = this.formBuilder.group({
       verteilerName: ['Test-Verteiler', Validators.required],
@@ -103,5 +54,43 @@ export class NewMaillistDialogComponent implements OnInit {
       .subscribe(mail => {
         this.thirdFormGroup.patchValue({ eigentuemer: mail });
       });
+  }
+
+  setCompletedForm1(): boolean {
+    return true;
+  }
+
+  getErrorMessageForm1(): string {
+    return 'Eingaben fehlen';
+  }
+  getErrorMessageForm2(): string {
+    return 'Eingaben fehlen';
+  }
+  getErrorMessageForm3(): string {
+    return 'Eingaben fehlen';
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmit() {
+    this.mailinglistService.createMailinglist(this.createMailinglist());
+    this.dialogRef.close();
+  }
+
+  createMailinglist(): MailinglistTemplate {
+    const mailinglist = {
+      verteilerName: this.firstFormGroup.value.verteilerName,
+      verteilerMail: this.firstFormGroup.value.verteilerMail,
+
+      mailadressen: this.secondFormGroup.value.mailadressen,
+
+      eigentuemer: this.thirdFormGroup.value.eigentuemer,
+      privateListe: this.thirdFormGroup.value.privateListe,
+      moderierteListe: this.thirdFormGroup.value.moderierteListe,
+    } as MailinglistTemplate;
+
+    return mailinglist;
   }
 }
