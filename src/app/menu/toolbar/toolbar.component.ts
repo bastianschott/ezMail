@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-toolbar',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
+  faGithub = faGithub;
   constructor() {}
 }
