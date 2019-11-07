@@ -25,7 +25,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Components
 import { DashboardComponent, DeleteDialogComponent } from './core/dashboard/dashboard.component';
 import { SidenavComponent } from './menu/sidenav/sidenav.component';
-import { ToolbarComponent, RegisterDialogComponent } from './menu/toolbar/toolbar.component';
+import { ToolbarComponent } from './menu/toolbar/toolbar.component';
 import { MailSettingsComponent } from './core/mail-settings/mail-settings.component';
 import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { UserComponent } from './core/user/user.component';
@@ -71,7 +71,6 @@ export class MyHammerConfig extends HammerGestureConfig {
     DashboardToolbarComponent,
     UserComponent,
     UserToolbarComponent,
-    RegisterDialogComponent,
     MailSettingsComponent,
     MailSettingsToolbarComponent,
     SettingsComponent,
@@ -109,6 +108,6 @@ export class MyHammerConfig extends HammerGestureConfig {
   ],
   bootstrap: [AppComponent],
   // Dialoge
-  entryComponents: [RegisterDialogComponent, NewMaillistDialogComponent, DeleteDialogComponent],
+  entryComponents: [NewMaillistDialogComponent, DeleteDialogComponent],
 })
 export class AppModule {}
