@@ -78,7 +78,8 @@ export const routingModule: ModuleWithProviders = RouterModule.forRoot(routes);
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      routes
+      routes,
+      { useHash: true }
       // { enableTracing: true } // <-- debugging purposes only
     ),
   ],
