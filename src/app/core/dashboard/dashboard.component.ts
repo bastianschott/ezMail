@@ -1,63 +1,93 @@
 import { AuthenticationService } from './../../shared/authentication.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { map, take } from 'rxjs/operators';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
+import { Mailinglist } from 'src/app/shared/ezmail/mailinglist';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DashboardService } from './dashboard.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  providers: [DashboardService],
 })
-export class DashboardComponent implements OnInit {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', id: 1, cols: 1, rows: 1 },
-          { title: 'Card 2', id: 2, cols: 1, rows: 1 },
-          { title: 'Card 3', id: 3, cols: 1, rows: 1 },
-          { title: 'Card 4', id: 4, cols: 1, rows: 1 },
-        ];
-      }
+export class DashboardComponent implements OnInit, AfterViewInit {
+  dataSource = new MatTableDataSource<Mailinglist>();
+  displayedColumns: string[] = [
+    'verteilerName',
+    'verteilerMail',
+    'eigentuemer',
+    'mailadressen',
+    'privateListe',
+    'moderierteListe',
+    'action',
+  ];
 
-      return [
-        { title: 'Card 1', id: 1, cols: 2, rows: 1 },
-        { title: 'Card 2', id: 2, cols: 1, rows: 1 },
-        { title: 'Card 3', id: 3, cols: 1, rows: 2 },
-        { title: 'Card 4', id: 4, cols: 1, rows: 1 },
-      ];
-    })
-  );
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
     private titleService: Title,
     private authService: AuthenticationService,
-    private router: Router
+    public dialog: MatDialog,
+    private dashboardService: DashboardService,
+    private mailinglistService: MailinglistsService
   ) {}
 
-  // https://medium.com/better-programming/improving-angular-ngfor-performance-through-trackby-ae4cf943b878
-  trackByFunction(item: any) {
-    if (!item) {
-      return null;
-    }
-    return item.id;
+  ngOnInit() {
+    this.authService.setRoutingDestination();
+    this.titleService.setTitle('Dashboard | ezMail');
+
+    this.paginator = this.paginator;
   }
 
-  ngOnInit() {
-    this.titleService.setTitle('Dashboard | ezMail');
-    console.log('Testttt');
+  ngAfterViewInit() {
+    this.dashboardService.getMailinglists().subscribe(data => {
+      this.dataSource.data = data;
+      console.log(this.dataSource.data);
+    });
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
-    this.authService
-      .getUserIsLoggedIn$()
-      .pipe(take(1))
-      .subscribe(isauthenticated => {
-        if (!isauthenticated) {
-          this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
-        }
-      });
+  applyFilter(filterValue: string): void {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
+  openDeleteDialog(mailinglist: Mailinglist): void {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: { mailinglist },
+    });
+  }
+
+  toggleCheckbox(mailinglist: Mailinglist, checkbox: string): void {
+    if (checkbox === 'privateListe') {
+      this.mailinglistService.togglePrivateListe(mailinglist);
+    }
+
+    if (checkbox === 'moderierteListe') {
+      this.mailinglistService.toggleModerierteListe(mailinglist);
+    }
+  }
+}
+
+@Component({
+  selector: 'app-delete-dialog',
+  templateUrl: 'delete-dialog.component.html',
+  styleUrls: ['./dashboard.component.scss'],
+})
+export class DeleteDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private mailinglistService: MailinglistsService, private snackBar: MatSnackBar) {}
+
+  deleteMailinglist(mailinglist: Mailinglist): void {
+    this.mailinglistService.deleteMailinglist(mailinglist.verteilerId);
+    this.snackBar.open('Verteiler ' + mailinglist.verteilerName + ' erfolgreich gelöscht!', '', { duration: 2000 });
   }
 }

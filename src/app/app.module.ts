@@ -10,9 +10,11 @@ import { LayoutModule } from '@angular/cdk/layout';
 import * as Hammer from 'hammerjs';
 
 // Firebase
-import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
+import { FirebaseUIModule, firebaseui } from 'firebaseui-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 // Material components
 import { MaterialModule } from './material/material.module';
@@ -21,9 +23,9 @@ import { MaterialModule } from './material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Components
-import { DashboardComponent } from './core/dashboard/dashboard.component';
+import { DashboardComponent, DeleteDialogComponent } from './core/dashboard/dashboard.component';
 import { SidenavComponent } from './menu/sidenav/sidenav.component';
-import { ToolbarComponent, LoginDialogComponent, RegisterDialogComponent } from './menu/toolbar/toolbar.component';
+import { ToolbarComponent } from './menu/toolbar/toolbar.component';
 import { MailSettingsComponent } from './core/mail-settings/mail-settings.component';
 import { DashboardToolbarComponent } from './core/dashboard/dashboard-toolbar/dashboard-toolbar.component';
 import { UserComponent } from './core/user/user.component';
@@ -36,6 +38,8 @@ import { LoginComponent } from './core/login/login.component';
 import { LoginToolbarComponent } from './core/login/login-toolbar/login-toolbar.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { NotFoundToolbarComponent } from './core/not-found/not-found-toolbar/not-found-toolbar.component';
+import { NewMaillistDialogComponent } from './core/new-maillist-dialog/new-maillist-dialog.component';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -67,8 +71,6 @@ export class MyHammerConfig extends HammerGestureConfig {
     DashboardToolbarComponent,
     UserComponent,
     UserToolbarComponent,
-    LoginDialogComponent,
-    RegisterDialogComponent,
     MailSettingsComponent,
     MailSettingsToolbarComponent,
     SettingsComponent,
@@ -77,6 +79,8 @@ export class MyHammerConfig extends HammerGestureConfig {
     LoginToolbarComponent,
     NotFoundComponent,
     NotFoundToolbarComponent,
+    NewMaillistDialogComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -97,8 +101,13 @@ export class MyHammerConfig extends HammerGestureConfig {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: MyHammerConfig,
     },
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginDialogComponent, RegisterDialogComponent],
+  // Dialoge
+  entryComponents: [NewMaillistDialogComponent, DeleteDialogComponent],
 })
 export class AppModule {}

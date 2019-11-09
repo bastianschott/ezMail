@@ -1,0 +1,8 @@
+<h4>
+  Möchten Sie die Verteilerliste <br />
+  <i>{{ data.mailinglist.verteilerMail }}</i>
+  <br />
+  löschen?
+</h4>
+<button mat-raised-button color="warn" (click)="deleteMailinglist(data.mailinglist)" mat-dialog-close>Löschen</button>
+<button mat-raised-button color="primary" mat-dialog-close>Abbrechen</button>

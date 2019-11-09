@@ -1,0 +1,65 @@
+<h2>Neue Verteilermail anlegen</h2>
+
+<mat-vertical-stepper #stepper>
+  <mat-step [stepControl]="firstFormGroup" [errorMessage]="getErrorMessageForm1()">
+    <form class="new-maillist" [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Basisdaten</ng-template>
+      <mat-form-field class="field">
+        <input matInput type="text" placeholder="Name der Verteilermail" formControlName="verteilerName" required />
+      </mat-form-field>
+      <mat-form-field class="field">
+        <input matInput type="email" placeholder="Verteilermail" formControlName="verteilerMail" required />
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperNext>Weiter</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" [errorMessage]="getErrorMessageForm2()">
+    <form class="new-maillist" [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Adressen</ng-template>
+      <mat-form-field class="field" matTooltip="Adressen mit Absatz oder Komma getrennt">
+        <textarea matInput placeholder="Mailadressen" formControlName="mailadressen" required></textarea>
+      </mat-form-field>
+      <div>
+        <button mat-raised-button matStepperPrevious>Zurück</button>
+        <button mat-raised-button matStepperNext>Weiter</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup" optional [errorMessage]="getErrorMessageForm3()">
+    <form class="new-maillist" [formGroup]="thirdFormGroup">
+      <ng-template matStepLabel>Erweitert</ng-template>
+      <mat-form-field class="field">
+        <input
+          matInput
+          type="email"
+          placeholder="Eigentümer"
+          formControlName="eigentuemer"
+          required
+          matTooltip="Eigentümer und Moderator der Verteilerliste"
+        />
+      </mat-form-field>
+      <p>
+        <mat-checkbox class="field" formControlName="privateListe" matTooltip="Nur Listenteilnehmer dürfen an die Liste schreiben">
+          Private Liste
+        </mat-checkbox>
+      </p>
+      <p>
+        <mat-checkbox
+          class="field"
+          formControlName="moderierteListe"
+          matTooltip="Jede Nachricht an die Liste muss zunächst von einem Moderator bestätigt werden, bevor sie verteilt wird"
+        >
+          Moderierte Liste
+        </mat-checkbox>
+      </p>
+      <div>
+        <button mat-raised-button matStepperPrevious>Zurück</button>
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Erstellen</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>

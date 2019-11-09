@@ -1,7 +1,5 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AppComponent } from 'src/app/app.component';
-import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-user',

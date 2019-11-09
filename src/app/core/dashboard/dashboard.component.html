@@ -1,24 +1,60 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async; trackBy: trackByFunction" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{ card.title }}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="search">
+  <mat-form-field>
+    <input matInput #filter (keyup)="applyFilter($event.target.value)" placeholder="Suche" />
+  </mat-form-field>
+</div>
+
+<div class="mat-elevation-z8">
+  <table #table mat-table [dataSource]="dataSource" matSort matSortActive="verteilerName" matSortDirection="asc">
+    <ng-container matColumnDef="verteilerName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.verteilerName }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="verteilerMail">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Mail </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.verteilerMail }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="eigentuemer">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Eigentümer </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.eigentuemer }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mailadressen">
+      <mat-header-cell *matHeaderCellDef> Mailadressen </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.mailadressen }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="privateListe">
+      <mat-header-cell *matHeaderCellDef> Privat </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-slide-toggle [(ngModel)]="element.privateListe" (click)="toggleCheckbox(element, 'privateListe')"></mat-slide-toggle>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="moderierteListe">
+      <mat-header-cell *matHeaderCellDef> Moderiert </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-slide-toggle [(ngModel)]="element.moderierteListe" (click)="toggleCheckbox(element, 'moderierteListe')"></mat-slide-toggle>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+      <mat-cell *matCellDef="let element" fxLayoutGap="5px">
+        <button mat-mini-fab color="primary" routerLink="/base/editUserDetails/{{ element.verteilerId }}">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="openDeleteDialog(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
 </div>

@@ -2,7 +2,6 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
 import { AuthGuard } from './shared/auth.guard';
 import { LoginComponent } from './core/login/login.component';
 import { LoginToolbarComponent } from './core/login/login-toolbar/login-toolbar.component';
-import { ToolbarComponent } from './menu/toolbar/toolbar.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './core/dashboard/dashboard.component';
@@ -16,7 +15,8 @@ import { SettingsToolbarComponent } from './core/settings/settings-toolbar/setti
 
 const routes: Routes = [
   // initiale Routen
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', component: DashboardComponent },
+  { path: '', component: DashboardToolbarComponent, outlet: 'toolbar' },
 
   {
     path: 'dashboard',

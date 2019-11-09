@@ -1,7 +1,21 @@
 export interface Mailinglist {
-  maillistId: string;
-  mail: string;
+  verteilerId: string;
   userId: string;
-  timeCreated: string;
-  timeModified: string;
+  verteilerName: string;
+  verteilerMail: string;
+  mailadressen: string;
+  eigentuemer: string;
+  privateListe: boolean;
+  moderierteListe: boolean;
+  timeCreated: number;
+  timeModified: number;
+}
+
+export interface MailinglistTemplate {
+  verteilerName: string;
+  verteilerMail: string;
+  mailadressen: string;
+  eigentuemer: string;
+  privateListe: boolean;
+  moderierteListe: boolean;
 }
