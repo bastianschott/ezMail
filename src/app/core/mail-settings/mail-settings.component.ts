@@ -15,9 +15,5 @@ export class MailSettingsComponent implements OnInit {
   ngOnInit() {
     this.authService.setRoutingDestination();
     this.titleService.setTitle('Mail Einstellungen | ezMail');
-
-    //  if (this.authGuard.canActivate()) {
-    //    this.router.navigate([{ outlets: { primary: ['login'], toolbar: ['login'] } }]);
-    //  }
   }
 }

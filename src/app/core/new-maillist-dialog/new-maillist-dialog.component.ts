@@ -6,6 +6,9 @@ import { take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/shared/authentication.service';
 import { MailinglistTemplate } from 'src/app/shared/ezmail/mailinglist';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-maillist-dialog',
@@ -20,12 +23,47 @@ export class NewMaillistDialogComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
 
+  // Test für Chips
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
+  mails: string[] = ['test1@bschott.de'];
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add mail
+    const re = new RegExp(
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    );
+
+    if (re.test(value)) {
+      if ((value || '').trim()) {
+        this.mails.push(value.trim());
+      }
+    } else if (value !== '') {
+      this.snackBar.open('Bitte eine valide Mailadresse eingeben', '', { duration: 2000 });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  remove(mail: string): void {
+    const index = this.mails.indexOf(mail);
+
+    if (index >= 0) {
+      this.mails.splice(index, 1);
+    }
+  }
+
   constructor(
     public dialogRef: MatDialogRef<NewMaillistDialogComponent>,
     private formBuilder: FormBuilder,
     private breakpointObserver: BreakpointObserver,
     private authService: AuthenticationService,
-    private mailinglistService: MailinglistsService
+    private mailinglistService: MailinglistsService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -38,8 +76,9 @@ export class NewMaillistDialogComponent implements OnInit {
       verteilerName: ['Test-Verteiler', Validators.required],
       verteilerMail: ['testverteileradresse@bschott.de', Validators.email],
     });
+
     this.secondFormGroup = this.formBuilder.group({
-      mailadressen: ['test1@bschott.de, test2@bschott.de\ntest3@bschott.de', Validators.required],
+      mailadressen: [this.mails],
     });
 
     this.thirdFormGroup = this.formBuilder.group({

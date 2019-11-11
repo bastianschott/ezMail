@@ -18,10 +18,24 @@
 
   <mat-step [stepControl]="secondFormGroup" [errorMessage]="getErrorMessageForm2()">
     <form class="new-maillist" [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Adressen</ng-template>
-      <mat-form-field class="field" matTooltip="Adressen mit Absatz oder Komma getrennt">
-        <textarea matInput placeholder="Mailadressen" formControlName="mailadressen" required></textarea>
+      <ng-template matStepLabel> Adressen </ng-template>
+      <mat-form-field class="field">
+        <mat-chip-list #chipList matTooltip="Adresse eingeben und mit Enter oder Leertaste bestätigen">
+          <mat-chip *ngFor="let mail of mails" (removed)="remove(mail)">
+            {{ mail }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Neue Mail Adressen"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="add($event)"
+            required
+          />
+        </mat-chip-list>
       </mat-form-field>
+
       <div>
         <button mat-raised-button matStepperPrevious>Zurück</button>
         <button mat-raised-button matStepperNext>Weiter</button>
@@ -33,14 +47,7 @@
     <form class="new-maillist" [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Erweitert</ng-template>
       <mat-form-field class="field">
-        <input
-          matInput
-          type="email"
-          placeholder="Eigentümer"
-          formControlName="eigentuemer"
-          required
-          matTooltip="Eigentümer und Moderator der Verteilerliste"
-        />
+        <input matInput type="email" placeholder="Eigentümer" formControlName="eigentuemer" required matTooltip="Eigentümer und Moderator der Verteilerliste" />
       </mat-form-field>
       <p>
         <mat-checkbox class="field" formControlName="privateListe" matTooltip="Nur Listenteilnehmer dürfen an die Liste schreiben">
