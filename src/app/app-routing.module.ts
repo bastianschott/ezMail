@@ -12,6 +12,8 @@ import { MailSettingsComponent } from './core/mail-settings/mail-settings.compon
 import { MailSettingsToolbarComponent } from './core/mail-settings/mail-settings-toolbar/mail-settings-toolbar.component';
 import { SettingsComponent } from './core/settings/settings.component';
 import { SettingsToolbarComponent } from './core/settings/settings-toolbar/settings-toolbar.component';
+import { EditEntryComponent } from './core/edit-entry/edit-entry.component';
+import { EditEntryToolbarComponent } from './core/edit-entry/edit-entry-toolbar/edit-entry-toolbar.component';
 
 const routes: Routes = [
   // initiale Routen
@@ -67,6 +69,15 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginToolbarComponent,
+    outlet: 'toolbar',
+  },
+  {
+    path: 'edit-entry',
+    component: EditEntryComponent,
+  },
+  {
+    path: 'edit-entry',
+    component: EditEntryToolbarComponent,
     outlet: 'toolbar',
   },
   { path: '404', component: NotFoundComponent }, // 404

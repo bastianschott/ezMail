@@ -40,6 +40,8 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
 import { NotFoundToolbarComponent } from './core/not-found/not-found-toolbar/not-found-toolbar.component';
 import { NewMaillistDialogComponent } from './core/new-maillist-dialog/new-maillist-dialog.component';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { EditEntryComponent } from './core/edit-entry/edit-entry.component';
+import { EditEntryToolbarComponent } from './core/edit-entry/edit-entry-toolbar/edit-entry-toolbar.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -81,6 +83,8 @@ export class MyHammerConfig extends HammerGestureConfig {
     NotFoundToolbarComponent,
     NewMaillistDialogComponent,
     DeleteDialogComponent,
+    EditEntryComponent,
+    EditEntryToolbarComponent,
   ],
   imports: [
     BrowserModule,
