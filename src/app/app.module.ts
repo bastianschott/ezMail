@@ -112,6 +112,6 @@ export class MyHammerConfig extends HammerGestureConfig {
   ],
   bootstrap: [AppComponent],
   // Dialoge
-  entryComponents: [NewMaillistDialogComponent, DeleteDialogComponent],
+  entryComponents: [NewMaillistDialogComponent, DeleteDialogComponent, EditEntryComponent],
 })
 export class AppModule {}

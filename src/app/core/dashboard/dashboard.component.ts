@@ -9,6 +9,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DashboardService } from './dashboard.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,15 +19,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Mailinglist>();
-  displayedColumns: string[] = [
-    'verteilerName',
-    'verteilerMail',
-    'eigentuemer',
-    'mailadressen',
-    'privateListe',
-    'moderierteListe',
-    'action',
-  ];
+  displayedColumns: string[] = ['verteilerName', 'verteilerMail', 'eigentuemer', 'mailadressen', 'privateListe', 'moderierteListe', 'action'];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -59,6 +52,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
+  }
+
+  openEditDialog(mailinglist: Mailinglist): void {
+    const dialogRef = this.dialog.open(EditEntryComponent, {
+      data: { mailinglist },
+    });
   }
 
   openDeleteDialog(mailinglist: Mailinglist): void {

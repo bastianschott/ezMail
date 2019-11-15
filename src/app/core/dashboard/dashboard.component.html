@@ -43,7 +43,7 @@
     <ng-container matColumnDef="action">
       <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
       <mat-cell *matCellDef="let element" fxLayoutGap="5px">
-        <button mat-mini-fab color="primary" routerLink="/base/editUserDetails/{{ element.verteilerId }}">
+        <button mat-mini-fab color="primary" (click)="openEditDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-mini-fab color="warn" (click)="openDeleteDialog(element)">

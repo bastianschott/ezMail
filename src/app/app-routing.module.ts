@@ -19,7 +19,6 @@ const routes: Routes = [
   // initiale Routen
   { path: '', component: DashboardComponent },
   { path: '', component: DashboardToolbarComponent, outlet: 'toolbar' },
-
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -69,15 +68,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginToolbarComponent,
-    outlet: 'toolbar',
-  },
-  {
-    path: 'edit-entry',
-    component: EditEntryComponent,
-  },
-  {
-    path: 'edit-entry',
-    component: EditEntryToolbarComponent,
     outlet: 'toolbar',
   },
   { path: '404', component: NotFoundComponent }, // 404

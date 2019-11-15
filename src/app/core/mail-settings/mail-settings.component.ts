@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AuthGuard } from 'src/app/shared/auth.guard';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/authentication.service';
 
