@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DashboardService } from './dashboard.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { EditEntryComponent } from '../edit-entry/edit-entry.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,15 @@ import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Mailinglist>();
-  displayedColumns: string[] = ['verteilerName', 'verteilerMail', 'eigentuemer', 'mailadressen', 'privateListe', 'moderierteListe', 'action'];
+  displayedColumns: string[] = [
+    'verteilerName',
+    'verteilerMail',
+    'eigentuemer',
+    'mailadressen',
+    'privateListe',
+    'moderierteListe',
+    'action',
+  ];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -29,7 +38,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private authService: AuthenticationService,
     public dialog: MatDialog,
     private dashboardService: DashboardService,
-    private mailinglistService: MailinglistsService
+    private mailinglistService: MailinglistsService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -42,7 +52,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dashboardService.getMailinglists().subscribe(data => {
       this.dataSource.data = data;
-      console.log(this.dataSource.data);
     });
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -55,9 +64,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   openEditDialog(mailinglist: Mailinglist): void {
-    const dialogRef = this.dialog.open(EditEntryComponent, {
-      data: { mailinglist },
-    });
+    const route = 'edit/' + mailinglist.verteilerId;
+    this.router.navigate([route]);
   }
 
   openDeleteDialog(mailinglist: Mailinglist): void {

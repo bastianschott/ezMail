@@ -1,79 +1,120 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { take } from 'rxjs/operators';
-import { MailinglistTemplate } from 'src/app/shared/ezmail/mailinglist';
+import { Component, OnInit, Input } from '@angular/core';
+import { Mailinglist } from 'src/app/shared/ezmail/mailinglist';
 import { MailinglistsService } from 'src/app/shared/ezmail/mailinglists.service';
-import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { take } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-entry',
   templateUrl: './edit-entry.component.html',
   styleUrls: ['./edit-entry.component.scss'],
+  providers: [DatePipe],
 })
 export class EditEntryComponent implements OnInit {
+  @Input() mailinglist: Mailinglist;
+  timeCreated = '';
+  timeModified = '';
+  mails: string[] = ['Loading...'];
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
+  formGroup: FormGroup;
+
   // Responsive: https://stackoverflow.com/a/52989737/11061015
   smallScreen: boolean;
-
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
-
   constructor(
-    public dialogRef: MatDialogRef<EditEntryComponent>,
-    private formBuilder: FormBuilder,
-    private breakpointObserver: BreakpointObserver,
     private mailinglistService: MailinglistsService,
+    private titleService: Title,
+    private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private titleService: Title
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe(result => {
-      this.smallScreen = result.matches;
-      this.titleService.setTitle('Mail Bearbeiten | ezMail');
+    this.router.navigate([{ outlets: { toolbar: ['edit'] } }]);
+    this.titleService.setTitle('Bearbeiten | ezMail');
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.formGroup = this.formBuilder.group({
+      verteilerName: ['Loading...', Validators.required],
+      verteilerMail: ['Loading...', Validators.email],
+      eigentuemer: ['', Validators.email],
+      privateListe: [false],
+      moderierteListe: [false],
     });
 
-    this.firstFormGroup = this.formBuilder.group({
-      verteilerName: ['Test-Verteiler', Validators.required],
-      verteilerMail: ['testverteileradresse@bschott.de', Validators.email],
-    });
+    this.mailinglistService
+      .getSingleMailinglist$(id)
+      .pipe(take(1))
+      .subscribe(list => {
+        this.mailinglist = list;
+        this.formGroup = this.formBuilder.group({
+          verteilerName: [this.mailinglist.verteilerName, Validators.required],
+          verteilerMail: [this.mailinglist.verteilerMail, Validators.email],
+          eigentuemer: [this.mailinglist.eigentuemer, Validators.email],
+          mailadressen: [this.mailinglist.mailadressen],
+          privateListe: [this.mailinglist.privateListe],
+          moderierteListe: [this.mailinglist.moderierteListe],
+        });
+        this.timeCreated = this.datePipe.transform(this.mailinglist.timeCreated, 'dd.MM.yyyy HH:mm');
+        this.timeModified = this.datePipe.transform(this.mailinglist.timeModified, 'dd.MM.yyyy HH:mm');
+        this.mails = this.mailinglist.mailadressen;
+
+        this.titleService.setTitle(this.mailinglist.verteilerName + ' bearbeiten | ezMail');
+      });
   }
 
-  setCompletedForm1(): boolean {
-    return true;
+  abort(): void {
+    this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
   }
 
-  getErrorMessageForm1(): string {
-    return 'Eingaben fehlen';
+  save(): void {
+    this.mailinglist.verteilerName = this.formGroup.value.verteilerName;
+    this.mailinglist.verteilerMail = this.formGroup.value.verteilerMail;
+    this.mailinglist.eigentuemer = this.formGroup.value.eigentuemer;
+    this.mailinglist.mailadressen = this.formGroup.value.mailadressen;
+    this.mailinglist.privateListe = this.formGroup.value.privateListe;
+    this.mailinglist.moderierteListe = this.formGroup.value.moderierteListe;
+
+    this.mailinglistService.updateMailinglist(this.mailinglist);
+    this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add mail
+    const re = new RegExp(
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    );
+
+    if (re.test(value)) {
+      if ((value || '').trim()) {
+        this.mails.push(value.trim());
+      }
+    } else if (value !== '') {
+      this.snackBar.open('Bitte eine valide Mailadresse eingeben', '', { duration: 2000 });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  onSubmit() {
-    this.mailinglistService.createMailinglist(this.createMailinglist());
-    this.dialogRef.close();
-  }
+  remove(mail: string): void {
+    const index = this.mails.indexOf(mail);
 
-  createMailinglist(): MailinglistTemplate {
-    const mailinglist = {
-      verteilerName: this.firstFormGroup.value.verteilerName,
-      verteilerMail: this.firstFormGroup.value.verteilerMail,
-
-      mailadressen: this.secondFormGroup.value.mailadressen,
-
-      eigentuemer: this.thirdFormGroup.value.eigentuemer,
-      privateListe: this.thirdFormGroup.value.privateListe,
-      moderierteListe: this.thirdFormGroup.value.moderierteListe,
-    } as MailinglistTemplate;
-
-    return mailinglist;
+    if (index >= 0) {
+      this.mails.splice(index, 1);
+    }
   }
 }

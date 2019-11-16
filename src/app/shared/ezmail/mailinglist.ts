@@ -3,7 +3,7 @@ export interface Mailinglist {
   userId: string;
   verteilerName: string;
   verteilerMail: string;
-  mailadressen: string;
+  mailadressen: string[];
   eigentuemer: string;
   privateListe: boolean;
   moderierteListe: boolean;
@@ -14,7 +14,7 @@ export interface Mailinglist {
 export interface MailinglistTemplate {
   verteilerName: string;
   verteilerMail: string;
-  mailadressen: string;
+  mailadressen: string[];
   eigentuemer: string;
   privateListe: boolean;
   moderierteListe: boolean;

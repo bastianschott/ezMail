@@ -1,6 +1,6 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,7 @@ import { NewMaillistDialogComponent } from './core/new-maillist-dialog/new-maill
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { EditEntryComponent } from './core/edit-entry/edit-entry.component';
 import { EditEntryToolbarComponent } from './core/edit-entry/edit-entry-toolbar/edit-entry-toolbar.component';
+import { EditMailinglistComponent } from './core/edit-mailinglist/edit-mailinglist.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -85,6 +86,7 @@ export class MyHammerConfig extends HammerGestureConfig {
     DeleteDialogComponent,
     EditEntryComponent,
     EditEntryToolbarComponent,
+    EditMailinglistComponent,
   ],
   imports: [
     BrowserModule,

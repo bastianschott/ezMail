@@ -1,18 +1,55 @@
-<h2>Verteilermail bearbeiten</h2>
+<div class="edit">
+  <table>
+    <tr>
+      <td>Erstellt am:</td>
+      <td>{{ timeCreated }}</td>
+    </tr>
+    <tr>
+      <td>Geändert am:</td>
+      <td>{{ timeModified }}</td>
+    </tr>
+  </table>
 
-<mat-vertical-stepper #stepper>
-  <mat-step [stepControl]="firstFormGroup" [errorMessage]="getErrorMessageForm1()">
-    <form class="new-maillist" [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Basisdaten</ng-template>
-      <mat-form-field class="field">
-        <input matInput type="text" placeholder="Name der Verteilermail" formControlName="verteilerName" required />
-      </mat-form-field>
-      <mat-form-field class="field">
-        <input matInput type="email" placeholder="Verteilermail" formControlName="verteilerMail" required />
-      </mat-form-field>
-      <div>
-        <button mat-raised-button matStepperNext>Weiter</button>
-      </div>
-    </form>
-  </mat-step>
-</mat-vertical-stepper>
+  <form class="edit-entry" [formGroup]="formGroup">
+    <mat-form-field class="field">
+      <input matInput type="text" placeholder="Name der Verteilermail" formControlName="verteilerName" required />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput type="email" placeholder="Verteilermail" formControlName="verteilerMail" required />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput type="email" placeholder="Eigentümer" formControlName="eigentuemer" required />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-chip-list #chipList matTooltip="Adresse eingeben und mit Enter oder Leertaste bestätigen">
+        <mat-chip *ngFor="let mail of mails" (removed)="remove(mail)">
+          {{ mail }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Adressen"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="true"
+          (matChipInputTokenEnd)="add($event)"
+          required
+        />
+      </mat-chip-list>
+    </mat-form-field>
+    <table>
+      <tr>
+        <td>Private Liste</td>
+        <td><mat-slide-toggle formControlName="privateListe"></mat-slide-toggle></td>
+      </tr>
+      <tr>
+        <td>Moderierte Liste</td>
+        <td><mat-slide-toggle formControlName="moderierteListe"></mat-slide-toggle></td>
+      </tr>
+    </table>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" (click)="save()">Speichern</button>
+      <button mat-raised-button (click)="abort()">Abbrechen</button>
+    </div>
+  </form>
+</div>

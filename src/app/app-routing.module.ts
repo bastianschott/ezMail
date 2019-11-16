@@ -14,6 +14,7 @@ import { SettingsComponent } from './core/settings/settings.component';
 import { SettingsToolbarComponent } from './core/settings/settings-toolbar/settings-toolbar.component';
 import { EditEntryComponent } from './core/edit-entry/edit-entry.component';
 import { EditEntryToolbarComponent } from './core/edit-entry/edit-entry-toolbar/edit-entry-toolbar.component';
+import { EditMailinglistComponent } from './core/edit-mailinglist/edit-mailinglist.component';
 
 const routes: Routes = [
   // initiale Routen
@@ -26,6 +27,17 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardToolbarComponent,
+    outlet: 'toolbar',
+  },
+  {
+    path: 'edit/:id',
+    // canActivate: [AuthGuard],
+    component: EditEntryComponent,
+  },
+  {
+    path: 'edit',
+    // canActivate: [AuthGuard],
+    component: EditEntryToolbarComponent,
     outlet: 'toolbar',
   },
   {

@@ -27,7 +27,9 @@ export class MailinglistsService {
         if (!userId) {
           return of([]);
         }
-        return this.db.collection<Mailinglist[]>('mailinglists', ref => ref.where('userId', '==', userId)).valueChanges();
+        return this.db
+          .collection<Mailinglist[]>('mailinglists', ref => ref.where('userId', '==', userId))
+          .valueChanges();
       })
     );
   }
@@ -69,11 +71,34 @@ export class MailinglistsService {
       });
   }
 
+  getSingleMailinglist$(verteilerId: string): Observable<Mailinglist> {
+    return this.db
+      .collection<Mailinglist>('mailinglists')
+      .doc<Mailinglist>(verteilerId)
+      .valueChanges();
+  }
+
+  updateMailinglist(mailinglist: Mailinglist): void {
+    console.log(mailinglist);
+    this.db
+      .collection('mailinglists')
+      .doc(mailinglist.verteilerId)
+      .update({
+        eigentuemer: mailinglist.eigentuemer,
+        mailadressen: mailinglist.mailadressen,
+        moderierteListe: mailinglist.moderierteListe,
+        privateListe: mailinglist.privateListe,
+        timeModified: Date.now(),
+        verteilerMail: mailinglist.verteilerMail,
+        verteilerName: mailinglist.verteilerName,
+      });
+  }
+
   /**
    * Löscht die Mailingliste
    * @param verteilerId ID der zu löschenden Mailingliste
    */
-  deleteMailinglist(verteilerId: string) {
+  deleteMailinglist(verteilerId: string): void {
     this.db
       .collection<Mailinglist[]>('mailinglists')
       .doc(verteilerId)
