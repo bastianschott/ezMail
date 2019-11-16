@@ -48,8 +48,9 @@
     </table>
 
     <div class="buttons">
-      <button mat-raised-button color="primary" (click)="save()">Speichern</button>
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!formGroup.valid">Speichern</button>
       <button mat-raised-button (click)="abort()">Abbrechen</button>
     </div>
+    <div *ngIf="!formGroup.valid" class="warn">Die Daten sind nicht korrekt</div>
   </form>
 </div>
