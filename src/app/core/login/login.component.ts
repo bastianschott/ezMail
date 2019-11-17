@@ -13,7 +13,12 @@ import { Title } from '@angular/platform-browser';
 })
 export class LoginComponent implements OnInit {
   // https://github.com/RaphaelJenni/FirebaseUI-Angular/blob/master/src/app/main/main.component.ts
-  constructor(private afAuth: AngularFireAuth, private router: Router, private authService: AuthenticationService, private titleService: Title) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router,
+    private authService: AuthenticationService,
+    private titleService: Title
+  ) {
     this.titleService.setTitle('Login | ezMail');
   }
 
@@ -21,20 +26,35 @@ export class LoginComponent implements OnInit {
     this.afAuth.authState.subscribe(d => console.log(d));
   }
 
+  /**
+   * Loggt den aktuellen Benutzer aus.
+   */
   logout() {
     this.authService.logout();
   }
 
+  /**
+   * Gibt zurück, ob ein Benutzer eingeloggt ist oder nicht.
+   * @returns Obervable vom Typ boolean: true, falls ein Benutzer eingeloggt ist.
+   */
   isLoggedIn(): Observable<boolean> {
     return this.authService.getUserIsLoggedIn$();
   }
 
+  /**
+   * Navigiert auf das Dashboard.
+   * @remarks Wird aufgerufen, wenn der Benutzer erfolgreich authentifiziert wurde
+   * @param data Daten zum erfolgreich eingeloggten User
+   */
   successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
     // console.log('successCallback', data);
-    console.log(this.isLoggedIn);
     this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
   }
 
+  /**
+   * Schreibt den Fehler in die Konsole, falls der User erfolglos authentifiziert wurde
+   * @param data Fehlercode
+   */
   errorCallback(data: FirebaseUISignInFailure) {
     console.error('errorCallback', data);
   }

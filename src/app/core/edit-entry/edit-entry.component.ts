@@ -22,11 +22,19 @@ export class EditEntryComponent implements OnInit {
   timeModified = '';
   mails: string[] = ['Loading...'];
 
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
+  separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   formGroup: FormGroup;
 
-  // Responsive: https://stackoverflow.com/a/52989737/11061015
-  smallScreen: boolean;
+  /**
+   * Erzeugt ein Formular, mit welchem es möglich ist, eine einzelne Mailinglist zu bearbeiten.
+   * @param mailinglistService Service für Mailinglisten
+   * @param titleService Service, um den Titel der Website zu ändern
+   * @param route Liefert die aktuelle URL
+   * @param snackBar Material Snack Bar
+   * @param formBuilder Zum einfachen Bauen von Formularen
+   * @param datePipe Zur Änderung von Datumformaten
+   * @param router Angular Router
+   */
   constructor(
     private mailinglistService: MailinglistsService,
     private titleService: Title,
@@ -37,6 +45,10 @@ export class EditEntryComponent implements OnInit {
     private router: Router
   ) {}
 
+  /**
+   * Lifecycle-Hook, in dem die Komponente initialisiert wird.
+   * @remarks Setzen des Website-Titels, Bauen des Formulars, DB-Zugriff um die Daten der Mailinlist zu ziehen.
+   */
   ngOnInit() {
     this.router.navigate([{ outlets: { toolbar: ['edit'] } }]);
     this.titleService.setTitle('Bearbeiten | ezMail');
@@ -71,10 +83,16 @@ export class EditEntryComponent implements OnInit {
       });
   }
 
+  /**
+   * Methode zum Abbrechen des Formulars. Verwirft Änderungen und routet zurück auf das Dashboard.
+   */
   abort(): void {
     this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
   }
 
+  /**
+   * Speichert die Änderungen in der Datenbank ab und routet zurück auf das Dashboard.
+   */
   save(): void {
     this.mailinglist.verteilerName = this.formGroup.value.verteilerName;
     this.mailinglist.verteilerMail = this.formGroup.value.verteilerMail;
@@ -87,6 +105,11 @@ export class EditEntryComponent implements OnInit {
     this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
   }
 
+  /**
+   * Methode zum Hinzufügen von Elementen in der Chip List
+   * @remarks Prüft, ob es sich bei mInput um eine Mail ahndelt. Ist dies nicht der Fall, wird eine Snackbar mit entsprechendem Inhalt erzeugt
+   * @param event Material Input Event
+   */
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -110,6 +133,10 @@ export class EditEntryComponent implements OnInit {
     }
   }
 
+  /**
+   * Methode zum Entfernen von Elementen in der Chip List
+   * @param mail Die zu entfernende Mailadresse
+   */
   remove(mail: string): void {
     const index = this.mails.indexOf(mail);
 

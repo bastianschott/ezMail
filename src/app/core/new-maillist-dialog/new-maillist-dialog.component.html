@@ -1,7 +1,7 @@
 <h2>Neue Verteilermail anlegen</h2>
 
 <mat-vertical-stepper #stepper>
-  <mat-step [stepControl]="firstFormGroup" [errorMessage]="getErrorMessageForm1()">
+  <mat-step [stepControl]="firstFormGroup" [errorMessage]="getErrorMessage()">
     <form class="new-maillist" [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Basisdaten</ng-template>
       <mat-form-field class="field">
@@ -16,7 +16,7 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="secondFormGroup" [errorMessage]="getErrorMessageForm2()">
+  <mat-step [stepControl]="secondFormGroup" [errorMessage]="getErrorMessage()">
     <form class="new-maillist" [formGroup]="secondFormGroup">
       <ng-template matStepLabel> Adressen </ng-template>
       <mat-form-field class="field">
@@ -43,11 +43,18 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="thirdFormGroup" optional [errorMessage]="getErrorMessageForm3()">
+  <mat-step [stepControl]="thirdFormGroup" optional [errorMessage]="getErrorMessage()">
     <form class="new-maillist" [formGroup]="thirdFormGroup">
       <ng-template matStepLabel>Erweitert</ng-template>
       <mat-form-field class="field">
-        <input matInput type="email" placeholder="Eigentümer" formControlName="eigentuemer" required matTooltip="Eigentümer und Moderator der Verteilerliste" />
+        <input
+          matInput
+          type="email"
+          placeholder="Eigentümer"
+          formControlName="eigentuemer"
+          required
+          matTooltip="Eigentümer und Moderator der Verteilerliste"
+        />
       </mat-form-field>
       <p>
         <mat-checkbox class="field" formControlName="privateListe" matTooltip="Nur Listenteilnehmer dürfen an die Liste schreiben">

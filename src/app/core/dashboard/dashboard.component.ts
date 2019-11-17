@@ -7,16 +7,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DashboardService } from './dashboard.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { EditEntryComponent } from '../edit-entry/edit-entry.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [DashboardService],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Mailinglist>();
@@ -37,7 +34,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private authService: AuthenticationService,
     public dialog: MatDialog,
-    private dashboardService: DashboardService,
     private mailinglistService: MailinglistsService,
     private router: Router
   ) {}
@@ -50,30 +46,48 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dashboardService.getMailinglists().subscribe(data => {
+    this.mailinglistService.getMailinglist$().subscribe(data => {
       this.dataSource.data = data;
     });
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Filterfunktion für das Suchfeld.
+   * @remarks {@link https://stackoverflow.com/a/48540498}
+   * @param filterValue String, nach welchem gesucht wird
+   */
   applyFilter(filterValue: string): void {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
-  openEditDialog(mailinglist: Mailinglist): void {
+  /**
+   * routet zur EditEntryComponent
+   * @param mailinglist Die Mailinglist, welche bearbeitet werden soll.
+   */
+  openEdit(mailinglist: Mailinglist): void {
     const route = 'edit/' + mailinglist.verteilerId;
     this.router.navigate([route]);
   }
 
+  /**
+   * Öffnet einen Material Dialog in der gefragt wird, ob die Mailinglist wirklich gelöscht werden soll.
+   * @param mailinglist Die zu löschende Mailinglist
+   */
   openDeleteDialog(mailinglist: Mailinglist): void {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: { mailinglist },
     });
   }
 
+  /**
+   * Wechselt die boolean-Werte von Moderierte Liste und Private Liste.
+   * @param mailinglist die Mailinglist, in der die Änderung vorgenommen werden soll
+   * @param checkbox 'privateListe' oder 'moderierteListe'
+   */
   toggleCheckbox(mailinglist: Mailinglist, checkbox: string): void {
     if (checkbox === 'privateListe') {
       this.mailinglistService.togglePrivateListe(mailinglist);
@@ -91,8 +105,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DeleteDialogComponent {
+  /**
+   * Kleiner Dialog, welcher eine zusätzliche Abfrage erzwingt, damit eine Mailinglist nicht versehentlich gelöscht wird.
+   * @param data Daten der Mailinglist
+   * @param mailinglistService Service zum löschen der Mailinglist
+   * @param snackBar Material Snack Bar
+   */
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private mailinglistService: MailinglistsService, private snackBar: MatSnackBar) {}
 
+  /**
+   * Löscht die Mailinglist permanent.
+   * @param mailinglist Die zu löschende Mailinglist
+   */
   deleteMailinglist(mailinglist: Mailinglist): void {
     this.mailinglistService.deleteMailinglist(mailinglist.verteilerId);
     this.snackBar.open('Verteiler ' + mailinglist.verteilerName + ' erfolgreich gelöscht!', '', { duration: 2000 });
