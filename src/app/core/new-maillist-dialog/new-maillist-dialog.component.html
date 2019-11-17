@@ -20,7 +20,7 @@
     <form class="new-maillist" [formGroup]="secondFormGroup">
       <ng-template matStepLabel> Adressen </ng-template>
       <mat-form-field class="field">
-        <mat-chip-list #chipList matTooltip="Adresse eingeben und mit Enter oder Leertaste bestätigen">
+        <mat-chip-list #chipList matTooltip="Adresse eingeben und mit Enter oder Leertaste bestätigen" required>
           <mat-chip *ngFor="let mail of mails" (removed)="remove(mail)">
             {{ mail }}
             <mat-icon matChipRemove>cancel</mat-icon>

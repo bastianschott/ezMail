@@ -21,7 +21,7 @@
       <input matInput type="email" placeholder="Eigentümer" formControlName="eigentuemer" required />
     </mat-form-field>
     <mat-form-field class="field">
-      <mat-chip-list #chipList matTooltip="Adresse eingeben und mit Enter oder Leertaste bestätigen">
+      <mat-chip-list #chipList matTooltip="Adresse eingeben und mit Enter oder Leertaste bestätigen" required>
         <mat-chip *ngFor="let mail of mails" (removed)="remove(mail)">
           {{ mail }}
           <mat-icon matChipRemove>cancel</mat-icon>
