@@ -67,10 +67,16 @@ export class NewMaillistDialogComponent implements OnInit {
 
   /**
    * Erstellt via MailinglistService die Mailinglist.
+   * Zusätzlich wird überprüft ob Mailadressen in dem Array liegen. Falls nicht öffnet
+   * sich eine Snackbar mit der Anweisung mindestens eine Mail Adresse anzugeben
    */
   onSubmit(): void {
-    this.mailinglistService.createMailinglist(this.createMailinglist());
-    this.dialogRef.close();
+    if (this.mails.length === 0) {
+      this.snackBar.open('Bitte mindestens eine E-mail Adresse angeben!', '', { duration: 2000 });
+    } else {
+      this.mailinglistService.createMailinglist(this.createMailinglist());
+      this.dialogRef.close();
+    }
   }
 
   /**

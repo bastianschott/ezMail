@@ -92,17 +92,23 @@ export class EditEntryComponent implements OnInit {
 
   /**
    * Speichert die Änderungen in der Datenbank ab und routet zurück auf das Dashboard.
+   * Zusätzlich wird überprüft ob Mailadressen in dem Array liegen. Falls nicht öffnet
+   * sich eine Snackbar mit der Anweisung mindestens eine Mail Adresse anzugeben
    */
   save(): void {
-    this.mailinglist.verteilerName = this.formGroup.value.verteilerName;
-    this.mailinglist.verteilerMail = this.formGroup.value.verteilerMail;
-    this.mailinglist.eigentuemer = this.formGroup.value.eigentuemer;
-    this.mailinglist.mailadressen = this.formGroup.value.mailadressen;
-    this.mailinglist.privateListe = this.formGroup.value.privateListe;
-    this.mailinglist.moderierteListe = this.formGroup.value.moderierteListe;
+    if (this.mails.length === 0) {
+      this.snackBar.open('Bitte mindestens eine E-mail Adresse angeben!', '', { duration: 2000 });
+    } else {
+      this.mailinglist.verteilerName = this.formGroup.value.verteilerName;
+      this.mailinglist.verteilerMail = this.formGroup.value.verteilerMail;
+      this.mailinglist.eigentuemer = this.formGroup.value.eigentuemer;
+      this.mailinglist.mailadressen = this.formGroup.value.mailadressen;
+      this.mailinglist.privateListe = this.formGroup.value.privateListe;
+      this.mailinglist.moderierteListe = this.formGroup.value.moderierteListe;
 
-    this.mailinglistService.updateMailinglist(this.mailinglist);
-    this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
+      this.mailinglistService.updateMailinglist(this.mailinglist);
+      this.router.navigate([{ outlets: { primary: ['dashboard'], toolbar: ['dashboard'] } }]);
+    }
   }
 
   /**
