@@ -6,6 +6,8 @@ sudo: required
 
 addons:
   apt:
+    #update: true
+    chrome: stable
     sources:
       - google-chrome
     packages:
